@@ -1,0 +1,23 @@
+﻿<form name="updateForm" ng-submit="capNhat()" novalidate="" class="form-validate form-horizontal">
+    <div class="modal-header">
+        <h4 class="modal-title">Chọn đơn vị</h4>
+    </div>
+    <div class="modal-body">
+        <div ng-show="!loaded" class="loading-spinner"></div>
+        <abn-tree ng-if="loaded" tree-data="donVis" tree-control="donViTree" on-select="clickTree(branch)" expand-level="{{expandLevel}}" initial-selection="{{currentDV.code}}"></abn-tree>
+    </div>
+    <div class="modal-footer">
+        <button type="button" ng-disabled="!currentDV.code" ng-click="select(currentDV)" class="btn btn-default">
+            <span ng-show="!currentDV.code"><em class="fa fa-check-circle"></em>&nbsp; Chọn đơn vị</span>
+            <span ng-show="currentDV.code&&!currentDV.type"><em class="fa fa-check-circle"></em>&nbsp; Chọn đơn vị [<strong>{{currentDV.label}}</strong>]</span>
+            <span ng-show="currentDV.code&&currentDV.type==1"><em class="fa fa-check-circle"></em>&nbsp; Chọn tổng công ty [<strong>{{currentDV.label}}</strong>]</span>
+            <span ng-show="currentDV.code&&currentDV.type==2"><em class="fa fa-check-circle"></em>&nbsp; Chọn công ty [<strong>{{currentDV.label}}</strong>]</span>
+            <span ng-show="currentDV.code&&currentDV.type==3"><em class="fa fa-check-circle"></em>&nbsp; Chọn chi nhánh [<strong>{{currentDV.label}}</strong>]</span>
+            <span ng-show="currentDV.code&&currentDV.type==4"><em class="fa fa-check-circle"></em>&nbsp; Chọn trạm [<strong>{{currentDV.label}}</strong>]</span>
+            <span ng-show="currentDV.code&&currentDV.type==5"><em class="fa fa-check-circle"></em>&nbsp; Chọn điểm (Ga) [<strong>{{currentDV.label}}</strong>]</span>
+        </button>
+        <button type="button" style="width:80px;" ng-click="cancel()" class="btn btn-default">
+            <em class="fa fa-close"> </em>&nbsp; Đóng
+        </button>
+    </div>
+</form>

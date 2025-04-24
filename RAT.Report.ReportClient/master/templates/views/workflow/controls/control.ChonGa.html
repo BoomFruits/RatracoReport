@@ -1,0 +1,29 @@
+﻿<div ng-controller="WorkflowControlChonGaCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select class="form-control" name="ControlChonGaLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien" required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlChonGaLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        {{reference.LableValue?reference.LableValue:'Chọn ga:'}}
+                        <span class="text-danger">(*)</span>
+                    </span>
+                    <input name="ControlChonGaValue{{$surfix}}" type="text" class="form-control" ng-model="ga" ng-required="dieuKien.LoaiDieuKien>0"
+                           typeahead-min-length="0" autocomplete="off" typeahead-editable="false" placeholder="Chọn ga" typeahead-on-select='selectGa($item)'
+                           uib-typeahead="n as n.TenGa for n in listGa | filter:{Keyword:$viewValue}| limitTo:15"
+                           enter tabindex="1+" />
+                </div>
+                <error-show type="required" name="ControlChonGaValue{{$surfix}}">Vui lòng chọn ga</error-show>
+            </div>
+        </div>
+    </div>
+</div>

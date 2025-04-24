@@ -1,0 +1,121 @@
+<div style="width:100%;">
+   <div class="modal-header">
+      <div class="row">
+         <div class="col-md-10">
+            <h3 class="panel-title">
+               <span>Kế hoạch cấp rỗng tại ga: {{gaItem.TenGaHienThoi}}</span>
+               <span>ngày {{master.Title}}</span>
+            </h3>
+         </div>
+         <div class="col-md-2"> <i style="float: right" ng-click="cancel()" class="text-danger icon-close"></i>
+         </div>
+      </div>
+   </div>
+   <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="panel">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="table-responsive">
+                        <table style="width:100%;background-color:whitesmoke" class="table table-bordered table-condensed table-hover table-striped">
+                           <thead>
+                              <tr>
+                                 <th style="width:10%" class="text-center">Công ty</th>
+                                 <th style="width:8%" class="text-center">Loại xe</th>
+                                 <th style="width:10%" class="text-center">Số lượng</th>
+                                 <th style="width:10%" class="text-center">Mác tàu</th>
+                                 <th style="width:15%" title="Giờ duyệt cấp xe kế hoạch" class="text-center">Giờ duyệt KH</th>
+                                 <th style="width:10%" title="Giờ dự kiến xe về ga" class="text-center">Giờ dự kiến</th>
+                                 <th style="width:30%" class="text-center">Ghi chú</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat-start="data in master.Data">
+                                 <td rowspan="{{data.Items.length}}" class="text-center">
+                                    <span>{{ data.MaCTVanDung}}</span>
+                                 </td>
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group text-center">
+                                       <span>{{ data.Items[0].PhanLoaiXe}}</span>
+                                    </p>
+                                 </td>
+                                 <!-- Ga đi-->
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group text-center">
+                                       <span>{{data.Items[0].SLXeCap|number}}</span>
+                                    </p>
+                                 </td>
+                                 <!-- Ga đến-->
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group text-center">
+                                       <span>{{data.Items[0].CapTaiHienThi}}</span>
+                                    </p>
+                                 </td>
+                                 <!-- Giờ cấp-->
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group">
+                                       <span>{{data.Items[0].TGCapHienThi}}</span>
+                                    </p>
+                                 </td>
+                                 <td class="text-center"></td>
+                                 <!-- Ghi chú-->
+                                 <td class="text-left">
+                                    <p style="width:100%" class="input-group">
+                                       <span>{{data.Items[0].GhiChu}}</span>
+                                    </p>
+                                 </td>
+                              </tr>
+                              <tr ng-repeat-end="ng-repeat-end" ng-repeat="item in data.Items.slice(1)">
+                                 <!-- Số hiệunêu-->
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group text-center">
+                                       <span>{{ item.PhanLoaiXe}}</span>
+                                    </p>
+                                 </td>
+                                 <!-- Ga đi-->
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group text-center">
+                                       <span>{{item.SLXeCap|number}}</span>
+                                    </p>
+                                 </td>
+                                 <!-- Ga đến-->
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group text-center">
+                                       <span>{{item.CapTaiHienThi}}</span>
+                                    </p>
+                                 </td>
+                                 <!-- Giờ cấp-->
+                                 <td class="text-center">
+                                    <p style="width:100%" class="input-group">
+                                       <span>{{item.TGCapHienThi}}</span>
+                                    </p>
+                                 </td>
+                                 <td class="text-center"></td>
+                                 <!-- Ghi chú-->
+                                 <td class="text-left">
+                                    <p style="width:100%" class="input-group">
+                                       <span>{{item.GhiChu}}</span>
+                                    </p>
+                                 </td>
+                              </tr>
+                           </tbody>
+                           <!-- tr(ng-repeat-end)                     -->
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <div class="row">
+         <div class="col-md-8 pull-left"></div>
+         <div class="col-md-4 pull-right">
+            <button type="button" ng-click="cancel()" ng-enter="cancel()" tabindex="1+" class="btn btn-default">
+               <span class="icon-close"></span>&nbsp; Đóng</button>
+         </div>
+      </div>
+   </div>
+</div>

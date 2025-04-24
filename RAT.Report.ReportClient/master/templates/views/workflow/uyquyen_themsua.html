@@ -1,0 +1,132 @@
+<div style="width: 100%">
+  <div class="modal-header">
+    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="text-align: left;">
+        <span>Cập nhật cán bộ ủy quyền dành cho cán bộ phân quyền {{CanBoPhanQuyen}}</span>
+    </h3>
+  </div>
+  <div class="modal-body">
+    <form name="searchForm" novalidate valid-submit="submit()">
+      <div class="row">
+        <div class="form-outline col-md-6">
+          <div class="form-group" show-errors>
+            <div class="input-group">
+              <span class="input-group-addon">Cán bộ xử lý<span class="text-danger">(*)</span>:</span>
+              <input name="CanBoNhanUyQuyen" type="text" class="form-control" ng-model="nhanVienItem"
+                typeahead-min-length="0" autocomplete="off" typeahead-editable="false" placeholder="Chọn tài khoản" typeahead-on-select ='selectCanBo($item)'
+                uib-typeahead="n  as n.FullName for n in listNhanVien | filter:{Keyword:$viewValue}| limitTo:15"
+                required enter tabindex="1+"/>
+            </div>
+            <p class="help-block" ng-show="searchForm.CanBoNhanUyQuyen.$error.required">Vui lòng chọn cán bộ xử lý</p>
+          </div>
+        </div>
+        <div class="form-outline col-md-6">
+          <div class="form-group" show-errors>
+            <div class="input-group">
+              <span class="input-group-addon">Đơn vị:</span>
+              <input type="text" class="form-control caption-value" id="TenDV" name="TenDV"
+                ng-model="input.TenDV" disabled autocomplete="off" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-outline col-md-6">
+          <div class="form-group " show-errors>
+            <div class="input-group">
+              <span class="input-group-addon">Địa chỉ email<span class="text-danger">(*)</span>:</span>
+              <input type="text" id="Email" name="Email" ng-model="input.Email" class="form-control"
+                placeholder="Email"  show-error required tabindex="1+"/>
+            </div>
+            <p class="help-block" ng-show="searchForm.Email.$error.required">Email cán bộ xử lý không được để trống</p>
+          </div>
+
+        </div>
+        <div class="form-outline col-md-6">
+          <div class="form-group input-group" show-errors>
+            <span class="input-group-addon">Số điện thoại:</span>
+            <input type="text" id="PhoneNumber" name="PhoneNumber" ng-model="input.PhoneNumber"
+              class="form-control"  placeholder="PhoneNumber" tabindex="1+"/>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 15px;">
+        <div class="form-outline col-md-6">
+          <div class="input-group">
+            <span class="input-group-addon">Áp dụng từ</span>
+            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="input.ApDungTu" name="ApDungTu" is-open="openedApDungTu" datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false" as-date tabindex="1+" enter/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openeApDungTu($event)"  tabindex="1+" enter><i class="fa fa-calendar" ></i></button>
+            </span>
+          </div>
+        </div>
+        <div class="form-outline col-md-6">
+          <div class="input-group">
+            <span class="input-group-addon">Áp dụng đến</span>
+            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="input.ApDungDen" name="ApDungDen" is-open="openedApDungDen" datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false" as-date tabindex="1+" enter/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openApDungDen($event)" tabindex="1+" enter><i class="fa fa-calendar"></i></button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-outline col-md-6">
+          <div class="form-group " show-errors>
+            <div class="input-group">
+              <span class="input-group-addon">Thời gian tự động duyệt {{input.Timeout}}:</span>
+              <select class="form-control" name="Timeout" ng-model="input.Timeout" required>
+                <option value="">-- Chọn thời gian --</option>
+                <option value="00:00:00">Lập tức</option>
+                <option value="23:59:59">sau 24 giờ</option>
+              </select>
+            </div>
+            <p class="help-block" ng-show="searchForm.Timeout.$error.required">Vui lòng chọn thời gian tự động duyệt</p>
+          </div>
+        </div>
+        <div class="form-outline col-md-4">
+            <div class="form-group">
+                <div class="input-group" style="width: 250px;height:35px;">
+                    <span class="input-group-addon">Có điều kiện ủy quyền:</span>
+                    <input type="text" value="" style="width:0px;display:none;" />
+                    <span class="input-group-addon" style="background-color: #fff;"><input type="checkbox" ng-model="input.CoDieuKien"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="input-group">
+            <div class="btn" ng-click="themDieuKien()" ng-disabled="!input.CoDieuKien" tabindex="1+">Thêm</div>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="item in input.ListDieuKien" ng-show="input.CoDieuKien">
+        <div class="row">
+          <div class="form-outline col-md-1" ng-style="{'padding-top': item.ReferenceID&&listReference[item.ReferenceID].Control=='Time'?'16px':'0px'}">
+            <button type="button" class="btn-outline-danger icon-minus" ng-click="DeleteItemDk($index)"
+              style="width: 35px; height: 35px; color: red;"></button>
+          </div>
+          <div class="form-outline col-md-3" ng-style="{'padding-top': item.ReferenceID&&listReference[item.ReferenceID].Control=='Time'?'16px':'0px'}" style="padding-left:0px;padding-right:0px;">
+            <div class="form-group " show-errors>
+              <div class="input-group">
+                <span class="input-group-addon" style="padding-left: 6px;padding-right:6px;">Chọn trường</span>
+                <select class="form-control" name="ReferenceID{{$index}}" ng-model="item.ReferenceID" style="padding-left: 6px;padding-right:6px;" as-number enter required>
+                  <option value="">--Chọn điều kiện--</option>
+                  <option ng-repeat="(rid, reference) in listReference" value="{{rid}}">{{reference.Label}}</option>
+                </select>
+              </div>
+              <error-show type="required" name="ReferenceID{{$index}}">Vui lòng chọn điều kiện</error-show>
+            </div>
+          </div>
+          <div class="form-outline col-md-8">
+              <div ng-if="item.ReferenceID" include-control="include-control" reference="listReference[item.ReferenceID]" dieu-kien="item" index="{{$index}}"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal-footer" style="margin-top: 12px;">
+        <button type="submit" class="btn btn-primary" name="save" ng-disabled="isDisableBtnUpdate">Lưu</button>
+        <button type="button" ng-click="close()" class="btn btn-default">Đóng</button>
+      </div>
+    </form>
+  </div>
+</div>

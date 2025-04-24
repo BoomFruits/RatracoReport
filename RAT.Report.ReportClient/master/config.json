@@ -1,0 +1,48 @@
+{
+  "version": "0.1.0",
+  "env": {
+    "development": {
+      "ENV": {
+        "version": "1.0.0",
+        "name": "development",
+        "urlLoginSso": "http://dev2.hhauth.vnticketonline.vn:10036/#/login",
+        "urlLogoutSso": "http://dev2.hhauth.vnticketonline.vn:10036/#/getout",
+        "urlIframeSso": "http://dev2.hhauth.vnticketonline.vn:10036/cdlsi.html",
+        "urlShareTokenSso": "http://dev2.hhauth.vnticketonline.vn:10036/#/stoken",
+        "urlShareTokenSsoTwoFactor": "http://dev2.hhauth.vnticketonline.vn:10036/#/stoken2f",
+        "urlApiAuth": "http://dev2.hhauth.vnticketonline.vn:10036/auth/",
+        "urlApiSoatVe": "http://localhost:19833/api",
+        "urlApiBanVe": "",
+        "urlWebAuth": "http://dev2.hhauth.vnticketonline.vn:10036/",
+        "urlApiRatBaoCao": "http://localhost:33615/",
+        "urlWebRatraco": "http://localhost:4326/",
+        "urlHangHoaSeltHost": "http://localhost:4326/"
+      }
+    },
+    "production": {
+      "ENV": {
+        "version": "1.0.0",
+        "name": "production",
+        "urlSso": "#{api.urlSso}",
+        "urlLoginSso": "#{api.urlLoginSso}",
+        "urlLogoutSso": "#{api.urlLogoutSso}",
+        "urlIframeSso": "#{api.urlIframeSso}",
+        "urlShareTokenSso": "#{api.urlShareTokenSso}",
+        "urlShareTokenSsoTwoFactor": "#{api.urlShareTokenSsoTwoFactor}",
+        "urlApiAuth": "#{api.urlApiAuth}",
+        "urlApiDanhMuc": "#{api.urlApiDanhMuc}",
+        "urlApiKeHoach": "#{api.urlApiKeHoach}",
+        "urlApiRatBaoCao": "#{api.urlApiRatBaoCao}",
+        "urlApiBanVe": "#{api.urlApiBanVe}",
+        "urlWebAuth": "#{api.urlWebAuth}",
+        "urlWebDanhMuc": "#{api.urlWebDanhMuc}",
+        "urlWebKeHoach": "#{api.urlWebKeHoach}",
+        "urlWebReport": "#{api.urlWebReport}",
+        "urlWebBanVe": "#{api.urlWebBanVe}",
+        "urlWebRatraco": "#{api.urlWebRatraco}",
+        "urlApiSoatVe": "#{api.urlApiSoatVe}",
+        "urlHangHoaSeltHost": "http://localhost:4326/"
+      }
+    }
+  }
+}

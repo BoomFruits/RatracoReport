@@ -1,0 +1,106 @@
+<!-- START Top Navbar-->
+<nav role="navigation" class="navbar topnavbar">
+    <!-- START navbar header-->
+    <div class="navbar-header"> <a href="#/" class="navbar-brand">
+
+         <div class="brand-logo">
+
+            <img src="app/img/logo.png" alt="DSVN" class="img-responsive" />
+
+         </div>
+
+         <div class="brand-logo-collapsed">
+
+            <img src="app/img/logo-single.png" alt="DSVN" class="img-responsive" />
+
+         </div>
+
+      </a>
+    </div>
+    <!-- END navbar header-->
+    <!-- START Nav wrapper-->
+    <div class="nav-wrapper">
+        <!-- START Left navbar-->
+        <ul class="nav navbar-nav">
+            <li>
+                <!-- Button used to collapse the left sidebar. Only visible on tablet
+                and desktops--> <a href="" trigger-resize="" ng-click="app.layout.isCollapsed = !app.layout.isCollapsed"
+                class="hidden-xs">
+
+               <em class="fa fa-navicon"></em>
+
+            </a>
+                <!-- Button to show/hide the sidebar on mobile. Visible
+                on mobile only.--> <a href="" ng-click="app.asideToggled = !app.asideToggled" class="visible-xs sidebar-toggle">
+
+               <em class="fa fa-navicon"></em>
+
+            </a>
+            </li>
+            <!-- START User avatar toggle-->
+            <!--li// Button used to collapse the left sidebar. Only visible on tablet
+            and desktops a(href='', ng-click="toggleUserBlock()") em.icon-user-->
+            <!-- END User avatar toggle-->
+            <!-- START lock screen-->
+            <!--lia(ui-sref="page.lock", title="Lock screen") em.icon-lock-->
+            <li style="padding-left:50px;padding-top:5px;color:white;text-align:center">
+                <h4>HỆ THỐNG BÁO CÁO ĐIỀU HÀNH VẬN TẢI LOGISTICS</h4>
+            </li>
+            <!-- END lock screen-->
+        </ul>
+        <!-- END Left navbar-->
+        <!-- START Right Navbar-->
+        <ul class="nav navbar-nav navbar-right">
+            <!-- Search icon-->
+            <!--<li>
+
+            <a href="skype:live:cfbccb73a497803d?call">
+
+               <em class="fa fa-skype"></em>
+
+               <span>&nbsp; Liên hệ hỗ trợ</span>
+
+            </a>
+
+         </li>-->
+            <!-- Fullscreen (only desktops)-->
+            <li class="visible-lg"> <a href="" toggle-fullscreen="toggle-fullscreen">
+
+               <em class="fa fa-expand"></em>
+
+            </a>
+            </li>
+            <!-- START Alert menu-->
+            <!--li.dropdown.dropdown-list(uib-dropdown="" ng-include="'app/views/partials/alert-menu.html'")-->
+            <!--li.dropdown.dropdown-list(uib-dropdown="" ng-include="'app/views/partials/apps.html'")-->
+            <!-- END Alert menu-->
+            <!-- START Offsidebar button-->
+            <li> <a href="" ng-click="app.offsidebarOpen = !app.offsidebarOpen">
+
+               <em class="fa fa-cog"></em>
+
+            </a>
+            </li>
+            <li> <a href="#/app/logout" title="Đăng xuất">
+
+               <em class="fa fa-sign-out"></em>
+
+            </a>
+            </li>
+            <!-- END Offsidebar menu-->
+        </ul>
+        <!-- END Right Navbar-->
+    </div>
+    <!-- END Nav wrapper-->
+    <!-- START Search form-->
+    <form role="search" action="search.html" class="navbar-form">
+        <div class="form-group has-feedback">
+            <input type="text" placeholder="{{ 'topbar.search.PLACEHOLDER' | translate }}"
+            class="form-control" />
+            <div search-dismiss="search-dismiss" class="fa fa-times form-control-feedback"></div>
+        </div>
+        <button type="submit" class="hidden btn btn-default">Submit</button>
+    </form>
+    <!-- END Search form-->
+</nav>
+<!-- END Top Navbar-->

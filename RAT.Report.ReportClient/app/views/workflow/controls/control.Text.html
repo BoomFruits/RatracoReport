@@ -1,0 +1,26 @@
+<div ng-controller="WorkflowControlTextCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select
+                class="form-control" name="ControlTextLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien"
+                required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                    </select>
+            </div>
+            <error-show type="required" name="ControlTextLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableValue?reference.LableValue:'Giá trị:'}}
+                    <span class="text-danger">(*)</span>
+                </span>
+                <input type="text" name="ControlTextValue{{$surfix}}" ng-model="dieuKien.DKienStringValue"
+                ng-required="dieuKien.LoaiDieuKien>0" class="form-control" />
+            </div>
+            <error-show type="required" name="ControlTextValue{{$surfix}}">Vui lòng nhập giá trị</error-show>
+        </div>
+    </div>
+</div>

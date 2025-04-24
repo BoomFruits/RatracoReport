@@ -1,0 +1,307 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">DT01-BVA: BÁO CÁO TÁCH THUẾ VÉ TRẢ</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Từ ngày <span class="text-danger">(*)</span></span>
+                            <input type="text" name="NgayBD" ng-model="input.NgayBD" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgayBD" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayBD=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="NgayBD">Từ ngày không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Đến ngày <span class="text-danger">(*)</span></span>
+                            <input type="text" name="NgayKT" ng-model="input.NgayKT" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgayKT" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayKT=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="NgayKT">Đến ngày không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 112px;" class="input-group-addon">Cấp hiển thị</span>
+                            <select name="CapQL" ng-model="input.CapQL" ng-options="i.Value as i.Text for i in listCapHienThi" class="form-control" required>
+                                <option value="">-- Chọn --</option>
+                            </select>
+                        </div>
+                        <error-show type="required" name="CapQL">Vui lòng chọn cấp hiển thị</error-show>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 112px;" class="input-group-addon">Đơn vị bán vé</span>
+                            <select name="MaDV" ng-model="input.MaDV" ng-options="i.Value as i.Text for i in listCongTy" class="form-control">
+                                <option value="">-- Tất cả --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Hình thức bán vé</span>
+                            <select name="LoaiBan" ng-model="input.LoaiBan" ng-options="i.Value as i.Text for i in listLoaiBan" as-number class="form-control">
+                                <option value="">-- Tất cả --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Loại trả</span>
+                            <select name="LoaiTra" ng-model="input.LoaiTra" ng-options="i.Value as i.Text for i in listLoaiTra" as-number class="form-control">
+                                <option value="">-- Tất cả --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo
+                    </button>
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div><span class="fa fa-info-circle">&nbsp;</span> Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu <strong class="text-danger">(*)</strong> &nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO TÁCH THUẾ VÉ TRẢ</h4>
+                        <div>Ngày trả từ {{report.Input.NgayBD|date:'dd/MM/yyyy'}} đến {{report.Input.NgayKT|date:'dd/MM/yyyy'}}</div>
+                        <div>
+                            <span>Đơn vị bán vé: {{report.Input.TenDV|empty:'Tất cả'}}, </span>
+                            <span>Hình thức bán vé: {{(listLoaiBan|filter:{Value:report.Input.LoaiBan})[0].Text|empty:'Tất cả'}}, </span>
+                            <span>Loại trả: {{(listLoaiTra|filter:{Value:report.Input.LoaiTra})[0].Text|empty:'Tất cả'}}</span>
+                        </div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: DT01-BVA</div>
+                        <div>Đơn vị tính: x1.000 đồng</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel panel-primary report-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover report-table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" rowspan="4" colspan="2">{{(listCapHienThi|filter:{Value:report.Input.CapQL})[0].Text}}</th>
+                                <th class="text-center" colspan="15">Trả vé nguyên chặng</th>
+                                <th class="text-center" colspan="15">Trả vé dọc đường</th>
+                                <th class="text-center" rowspan="4">Tổng</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center" colspan="7" style="white-space:nowrap;">TM</th>
+                                <th class="text-center" colspan="7" style="white-space:nowrap;">CK</th>
+                                <th class="text-center" rowspan="3" style="white-space:nowrap;">Tổng</th>
+                                <th class="text-center" colspan="7" style="white-space:nowrap;">TM</th>
+                                <th class="text-center" colspan="7" style="white-space:nowrap;">CK</th>
+                                <th class="text-center" rowspan="3" style="white-space:nowrap;">Tổng</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center" colspan="2">10%</th>
+                                <th class="text-center" colspan="2">7%</th>
+                                <th class="text-center" colspan="2">8%</th>
+                                <th class="text-center" rowspan="2">Tổng</th>
+                                <th class="text-center" colspan="2">10%</th>
+                                <th class="text-center" colspan="2">7%</th>
+                                <th class="text-center" colspan="2">8%</th>
+                                <th class="text-center" rowspan="2">Tổng</th>
+                                <th class="text-center" colspan="2">10%</th>
+                                <th class="text-center" colspan="2">7%</th>
+                                <th class="text-center" colspan="2">8%</th>
+                                <th class="text-center" rowspan="2">Tổng</th>
+                                <th class="text-center" colspan="2">10%</th>
+                                <th class="text-center" colspan="2">7%</th>
+                                <th class="text-center" colspan="2">8%</th>
+                                <th class="text-center" rowspan="2">Tổng</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center" colspan="2">1</td>
+                                <td class="text-center">2</td>
+                                <td class="text-center">3</td>
+                                <td class="text-center">4</td>
+                                <td class="text-center">5</td>
+                                <td class="text-center">6</td>
+                                <td class="text-center">7</td>
+                                <td class="text-center" style="white-space: nowrap;">8=3<br />+5+7</td>
+                                <td class="text-center">9</td>
+                                <td class="text-center">10</td>
+                                <td class="text-center">11</td>
+                                <td class="text-center">12</td>
+                                <td class="text-center">13</td>
+                                <td class="text-center">14</td>
+                                <td class="text-center" style="white-space: nowrap;">15=10<br />+12+14</td>
+                                <td class="text-center" style="white-space: nowrap;">16=8+15</td>
+                                <td class="text-center">17</td>
+                                <td class="text-center">18</td>
+                                <td class="text-center">19</td>
+                                <td class="text-center">20</td>
+                                <td class="text-center">21</td>
+                                <td class="text-center">22</td>
+                                <td class="text-center" style="white-space: nowrap;">23=18<br />+20+22</td>
+                                <td class="text-center">24</td>
+                                <td class="text-center">25</td>
+                                <td class="text-center">26</td>
+                                <td class="text-center">27</td>
+                                <td class="text-center">28</td>
+                                <td class="text-center">29</td>
+                                <td class="text-center" style="white-space: nowrap;">30=25<br />+27+29</td>
+                                <td class="text-center" style="white-space: nowrap;">31=23<br />+30</td>
+                                <td class="text-center" style="white-space: nowrap;">32=16+31</td>
+                            </tr>
+                            <tr ng-repeat="item in report.Data">
+                                <td ng-show="item.CapQL>3?true:false">{{item.STT}}</td>
+                                <td colspan="{{item.CapQL>3?1:2}}" ng-style="{'font-weight':item.CapQL>3?'normal':'bold'}">
+                                    <span ng-show="item.CapQL==5"> - </span>{{item.TenDV}}
+                                </td>
+                                <td class="text-right">{{item.SL_Tra_NC_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_NC_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_NC_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_TM|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_NC_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_NC_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_NC_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC_CK|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_NC|number:0}}</td>
+
+                                <td class="text-right">{{item.SL_Tra_DD_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_DD_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_DD_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_TM|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_DD_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_DD_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{item.SL_Tra_DD_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD_CK|number:0}}</td>
+                                <td class="text-right">{{item.Tien_Tra_DD|number:0}}</td>
+
+                                <td class="text-right">{{item.Tien_Tra_Tong|number:0}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>CỘNG</strong></td>
+                                <td class="text-right">{{report.Tong.SL_Tra_NC_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_NC_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_NC_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_TM|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_NC_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_NC_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_NC_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC_CK|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_NC|number:0}}</td>
+
+                                <td class="text-right">{{report.Tong.SL_Tra_DD_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_TM_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_DD_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_TM_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_DD_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_TM_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_TM|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_DD_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_CK_VAT10|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_DD_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_CK_VAT7|number:0}}</td>
+                                <td class="text-right">{{report.Tong.SL_Tra_DD_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_CK_VAT8|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD_CK|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_DD|number:0}}</td>
+                                <td class="text-right">{{report.Tong.Tien_Tra_Tong|number:0}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-info">
+                <div><span class="fa fa-info-circle">&nbsp;</span> Ghi chú</div>
+                <div>- Số liệu báo cáo đã bao gồm 1.000 đồng bảo hiểm và tiền thuế giá trị gia tăng</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

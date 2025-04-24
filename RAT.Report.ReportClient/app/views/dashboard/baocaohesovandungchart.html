@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title text-center">Hệ số sử dụng chỗ</div>
+            </div>
+            <div class="panel-body">
+                <div style="position: relative" height="350px" ng-if="hsVeLineData &amp;&amp; hsVeLineData.length &gt; 0">
+                    <flot dataset="hsVeLineData" options="lineOptions" height="350px"></flot>
+                </div>
+                <div style="position: absolute;bottom: 70px; right: 30px;text-align: center; border:1px;"
+                ng-if="hsVeLineData &amp;&amp; hsVeLineData.length &gt; 0">
+                    <div style="position: relative">
+                        <div class="circle">
+                            <div class="center-text">
+                                <span>{{hsvereport.PerSuDungCho}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title text-center">Thời gian quay vòng toa xe</div>
+            </div>
+            <div class="panel-body">
+                <div style="position: relative" height="200px" ng-if="vxChartData &amp;&amp; vxChartData.length &gt; 0">
+                    <div morris-bar="" morris-data="vxChartData" morris-options="vxBarOptions"
+                    height="200px"></div>
+                </div>
+                <div style="position: absolute;top: 50px; right: 30px;text-align: center; border:1px;"
+                ng-if="vxChartData &amp;&amp; vxChartData.length &gt; 0">
+                    <div style="position: relative">
+                        <div class="circle">
+                            <div class="center-text">
+                                <span>{{hstimereport.HeSoThoiGian}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title text-center">Hệ số chạy rỗng</div>
+            </div>
+            <div class="panel-body">
+                <div style="position: relative" height="350px" ng-if="hsRongLineData &amp;&amp; hsRongLineData.length &gt; 0">
+                    <flot dataset="hsRongLineData" options="lineOptions" height="350px"></flot>
+                </div>
+                <div style="position: absolute;bottom: 50px; right: 30px;text-align: center; border:1px;"
+                ng-if="hsRongLineData &amp;&amp; hsRongLineData.length &gt; 0">
+                    <div style="position: relative">
+                        <div class="circle">
+                            <div class="center-text">
+                                <span>{{hsrongreport.HeSoRong}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title text-center">Hệ số vận dụng toa xe</div>
+            </div>
+            <div class="panel-body">
+                <div style="position: relative" height="200px" ng-if="vdxChartData &amp;&amp; vdxChartData.length &gt; 0">
+                    <div morris-bar="" morris-data="vdxChartData" morris-options="vdxBarOptions"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

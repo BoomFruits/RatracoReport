@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-click="fnGoToPageViewThongTinTau(master.TauID)"
+            uib-tooltip="Xem chi tiết tàu" class="btn btn-lg btn-block btn-default">
+                <span class="icon-eye pull-left">
+                    <span>Xem Chi Tiết Tàu</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="(master.TrangThai!==6)" class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-click="fnGoToPageXacBaoThanhPhan(master.TauID)"
+            ng-show="(master.TrangThai!==6)" uib-tooltip="Tác nghiệp cắt móc xe" class="btn btn-lg btn-block btn-default">
+                <span class="pull-left icon-link">
+                    <span>Tác Nghiệp Cắt Móc Xe</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="(master.TrangThai===3 || master.TrangThai===5)" class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-click="fnGoToPageTacNghiepTienTau(master.TauID)"
+            ng-show="(master.TrangThai===3 || master.TrangThai===5)" uib-tooltip="Tác nghiệp tiễn tàu"
+            class="btn btn-lg btn-block btn-default">
+                <span class="fa fa-sign-in pull-left">
+                    <span>Tác Nghiệp Tiễn Tàu</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="(master.TrangThai===4) &amp;&amp; (master.LoaiDiaDiemHT===2)"
+class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-click="fnGoToPageTacNghiepDonTau(master.TauID)"
+            ng-show="(master.TrangThai===4) &amp;&amp; (master.LoaiDiaDiemHT===2)"
+            uib-tooltip="Tác nghiệp đón tàu" class="btn btn-lg btn-block btn-default">
+                <span class="fa fa-random pull-left">
+                    <span>Tác Nghiệp Đón Tàu</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="(master.TrangThai===4) &amp;&amp; (master.LoaiDiaDiemHT===2)"
+class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-click="fnGoToPageTacNghiepThongTau(master.TauID)"
+            ng-show="(master.TrangThai===4) &amp;&amp; (master.LoaiDiaDiemHT===2)"
+            uib-tooltip="Tác nghiệp thông tàu" class="btn btn-lg btn-block btn-default">
+                <span class="fa fa-arrows-h pull-left">
+                    <span>Tác Nghiệp Thông Tàu</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="( master.TrangThai == 5)&amp;&amp; master.LoaiDiaDiemHT==1"
+class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-show="( master.TrangThai == 5)&amp;&amp; master.LoaiDiaDiemHT==1"
+            ng-click="fnGoToPageTacNghiepCaiBien(master.TauID)" uib-tooltip="Cải biên tàu"
+            class="btn btn-lg btn-block btn-default">
+                <span class="fa icon-pencil pull-left">
+                    <span>Tác Nghiệp Cải Biên Tàu</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="(master.TrangThai == 4)&amp;&amp; master.LoaiDiaDiemHT==2"
+class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-show="(master.TrangThai == 4)&amp;&amp; master.LoaiDiaDiemHT==2"
+            ng-click="fnGoToPageTacNghiepCaiBien(master.TauID)" uib-tooltip="Cải biên tàu khu đoạn"
+            class="btn btn-lg btn-block btn-default">
+                <span class="fa icon-pencil pull-left">
+                    <span>Tác Nghiệp Cải Biên Tàu</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="(master.TrangThai!==6 )" class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="button" ng-click="fnGoToPageTacNghiepGiaiTheTau(master.TauID)"
+            ng-show="(master.TrangThai!==6 )" uib-tooltip="Giải thể tàu" class="btn btn-lg btn-block btn-default">
+                <span class="fa fa-arrows-alt pull-left">
+                    <sapn>Tác Nghiệp Giải Thể Tàu</sapn>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>

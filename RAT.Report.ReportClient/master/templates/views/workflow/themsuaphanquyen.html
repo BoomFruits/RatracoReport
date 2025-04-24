@@ -1,0 +1,82 @@
+<div style="width: 100%">
+  <div class="modal-header">
+    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="text-align: center;">{{title}}</h3>
+  </div>
+  <div class="modal-body">
+    <form name="searchForm">
+      <div class="row">
+        <div class="form-outline col-md-6">
+          <div class="form-group" show-errors>
+              <div class="input-group">
+                  <span class="input-group-addon">Cán bộ xử lý<span class="text-danger">(*)</span>:</span>
+                  <input id="userid" name="userid" type="text" class="form-control" ng-model="input.NhanVienItem"
+                  typeahead-min-length="0"  autocomplete="off"
+                  typeahead-editable="false" 
+                  placeholder="Chọn tài khoản"
+                  uib-typeahead="n  as n.FullName for n in listNhanVien | filter:{Keyword:$viewValue}| limitTo:15"
+                  typeahead-on-select="fnSelectionCanBo(input.NhanVienItem)"
+                  required 
+                  tabindex="1+"
+                  />
+              </div>
+              <p class="help-block" ng-show="searchForm.userid.$error.required">Vui lòng chọn cán bộ xử lý</p>
+          </div>
+        </div>
+        <div class="form-outline col-md-6">
+          <div class="form-group" show-errors>
+              <div class="input-group">
+                  <span class="input-group-addon">Đơn vị:</span>
+                  <input type="text" class="form-control caption-value" id="CapXuLy" name="CapXuLy" ng-model="input.TenDV" disabled  autocomplete="off"/>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-outline col-md-6">
+          <div class="form-group " show-errors>
+            <div class="input-group">
+              <span class="input-group-addon">Email<span class="text-danger">(*)</span>:</span>
+              <input type="text" id="Email" name="Email" ng-model="input.Email" class="form-control" placeholder="Email" enter tabindex="1+"  show-error required/>
+            </div>
+            <p class="help-block" ng-show="searchForm.Email.$error.required">Email cán bộ xử lý không được để trống</p>
+          </div>
+
+        </div>
+        <div class="form-outline col-md-6">
+          <div class="form-group input-group" show-errors>
+            <span class="input-group-addon">Số điện thoại:</span>
+              <input type="text" id="PhoneNumber" name="PhoneNumber" ng-model="input.PhoneNumber" class="form-control"  placeholder="PhoneNumber" tabindex="1+" enter/>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-outline col-md-6">
+          <div class="input-group">
+            <span class="input-group-addon">Áp dụng từ</span>
+            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="input.ApDungTu" enter name="ApDungTu" is-open="openedApDungTu" datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false" tabindex="1+" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" enter ng-click="openeApDungTu($event)" tabindex="1+"><i class="fa fa-calendar"></i></button>
+            </span>
+          </div>
+        </div>
+        <div class="form-outline col-md-6">
+          <div class="input-group">
+            <span class="input-group-addon">Áp dụng đến</span>
+            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="input.ApDungDen" enter name="ApDungDen" is-open="openedApDungDen" datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false" tabindex="1+"/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" enter ng-click="openApDungDen($event)"><i class="fa fa-calendar" tabindex="1+"></i></button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 30px;">
+        <button type="button" ng-click="submit()" class="btn btn-primary" name="report" ng-disabled="isLoading">
+            {{submitbtn}}
+          </button>
+        <button type="button" ng-click="close()" class="btn btn-default">
+          Đóng
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

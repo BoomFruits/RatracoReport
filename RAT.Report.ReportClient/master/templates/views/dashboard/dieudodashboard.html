@@ -1,0 +1,434 @@
+<script type="text/ng-template" id="myPopoverTemplate.html">
+   <div style="margin:0px" ng-if="isLoading">    <div style="margin:0px" class="sk-three-bounce"><div style="width:10px;height:10px" class="sk-child sk-bounce1"></div><div style="width:10px;height:10px" class="sk-child sk-bounce2"></div><div style="width:10px;height:10px" class="sk-child sk-bounce3"></div></div></div><div ng-if="(dynamicPopover.hanhtrinhs.length === null||dynamicPopover.hanhtrinhs.length === undefined||dynamicPopover.hanhtrinhs.length &lt;= 0) &amp;&amp; !isLoading">Chưa thực hiện đón tiễn</div><div ng-repeat="item in dynamicPopover.hanhtrinhs" ng-if="dynamicPopover.hanhtrinhs.length &gt; 0"><div style="padding:2px"><span ng-if="item.TGDon !== null &amp;&amp; item.TGDon !== undefined">Đón&nbsp;{{item.TGDon|date:'HH:mm'}}({{item.TGDon|date:'dd/MM'}})-</span><!--span(ng-if="item.TGDon === null || item.TGDon === undefined") Đón&nbsp;...---><span ng-if="item.TGTien !== null &amp;&amp; item.TGTien !== undefined">Tiễn&nbsp;{{item.TGTien|date:'HH:mm'}}({{item.TGTien|date:'dd/MM'}})&nbsp;</span><span ng-if="item.TGTien === null || item.TGTien === undefined">Tiễn&nbsp;...-</span><b>{{item.TenGa}}&nbsp;</b><span ng-if="item.SLXeMocThem !== null &amp;&amp; item.SLXeMocThem !== undefined">{{item.SLXeMocThem}}x,</span><span ng-if="item.SLXeCat !== null &amp;&amp; item.SLXeCat !== undefined">{{item.SLXeCat}}x</span></div></div>
+</script>
+<div class="row">
+   <div class="col-lg-9">
+      <div class="row">
+         <div class="col-lg-6">
+            <div style="width:100%;overflow:hidden">
+               <div style="text-align: left;margin:0px -18px 0px 0px;padding-right:18px;overflow-y:auto;height:625px">
+                  <table class="table table-striped table-fixed">
+                     <tbody ng-repeat="diadiem in diadiemTauItems">
+                        <tr ng-if="diadiem.LegTrains.length &gt; 0">
+                           <td style="width:15px;" class="text-center">
+                              <p ng-bind-html="diadiem.TenDiaDiem" class="text-bold"></p>
+                           </td>
+                           <td style="vertical-align:top" class="w95 text-left">
+                              <div class="table-responsive">
+                                 <table class="table table-bordered table-hover">
+                                    <tbody ng-repeat="item in diadiem.LegTrains">
+                                       <tr>
+                                          <td ng-class="item.TrangThai==1?'khoitao': item.TrangThai==2? 'xacbao' : item.TrangThai==3? 'xacnhan': item.TrangThai==4? 'dichuyen' : item.TrangThai==5? 'dungdo' : '' " ng-mouseenter="getHanhTrinhTauByID(item)"
+                                          uib-popover-template="dynamicPopover.templateUrl" popover-trigger="mouseenter" popover-placement="right-top" popover-class="tooltip-popover-class" style="cursor:pointer" class="w1"></td>
+                                          <td style="border-right:none;" class="text-left w74 dash-noidung">
+                                             <span style="font-weight:bold;" ng-class="item.MaCTSoHuuTau=='FHN'? 'bg-fhn' : item.MaCTSoHuuTau=='FSG'?'bg-primary': item.MaCTSoHuuTau =='FRA'? 'bg-warning' : '' ">
+                                                <span ng-if="item.MacTau" ng-click="fnDieuDoTamDung(item)" title="Bấm vào đây để phát lệnh tạm dừng">{{item.MacTau}}</span>
+                                                <span ng-if="item.TrichDanSoHieuTau">({{item.TrichDanSoHieuTau}})</span>
+                                             </span>
+                                             <span ng-if="item.IsNoTN &gt; 0" style="color:red" title="Tạm dừng theo mệnh lệnh của điều độ" class="fa fa-flag"></span>
+                                             <span ng-if="item.DauMaySo">&nbsp;({{item.DauMaySo}}</span>
+                                             <span ng-if="item.PhoneNumber">- {{item.PhoneNumber}}</span>
+                                             <span ng-if="item.DauMaySo"></span>
+                                             <span>&nbsp; {{item.NgayXP|date:'HH:mm (dd/MM)'}}</span>
+                                             <br/>
+                                             <span>
+                                                <span>{{item.TenGaLT}}&equals;&gt;{{item.TenGaGT}}</span>
+                                             </span>
+                                             <br/>
+                                             <span>
+                                                <span>{{item.SoTP? item.SoTP : 0|number}}(xe)&nbsp;</span>
+                                                <span ng-if="item.TongSoDM &gt; 0">{{item.TongSoDM?item.TongSoDM : 0|number}}(đầu máy)&nbsp;</span>
+                                             </span>
+                                             <span>
+                                                <span>{{item.TongChieuDai?item.TongChieuDai + (item.DauMay_ChieuDai? DauMay_ChieuDai: 0) : 0 + (item.DauMay_ChieuDai? DauMay_ChieuDai: 0)|number:2}}(m)&nbsp;</span>
+                                             </span>
+                                             <span>
+                                                <span>{{item.TongTongTrong? item.TongTongTrong.toFixed(2):0}} (tấn)&nbsp;</span>
+                                             </span>
+                                             <span ng-if="item.Vmax &gt; 0">
+                                                <span>{{ item.Vmax|number}} (km/h)&nbsp;</span>
+                                             </span>
+                                             <span>
+                                                <span>{{item.LaiTau}}</span>
+                                                <span ng-if="item.LaiTau_Tel">({{item.LaiTau_Tel}})</span>
+                                             </span>
+                                             <span ng-if="item.IsComment === 2" style="color:#ffcc00;font-size:18pt" data-blink="data-blink" ng-click="PopupChat(item)" class="fa fa-comment-o"></span>
+                                             <span ng-if="item.IsComment === 1" style="color:#ffcc00;font-size:18pt" ng-click="PopupChat(item)" class="fa fa-comment-o"></span>
+                                             <!--span.icon-phone span {{item.SoDienThoai}}-->
+                                          </td>
+                                          <td style="border-left:none;" class="w25 text-right">
+                                             <button type="button" show-if-authenticated="F72" uib-tooltip="Xác nhận thành phần" ng-click="goToXacNhanLapTau(item)" ng-if="item.TrangThai == 2||item.TrangThai == 1" class="btn btn-lg btn-square btn-default bg-button-xacnhan icon-check">
+                                                <span style="font-size:15pt"></span>
+                                             </button>
+                                             <div uib-dropdown="" dropdown-append-to-body="" class="btn-group">
+                                                <button id="btn-append-to-body" type="button" uib-tooltip="Tác nghiệp khác" uib-dropdown-toggle="" class="btn btn-lg btn-square btn-default">
+                                                   <span style="font-size:15pt" class="icon-list pull-left">
+                                                      <span></span>
+                                                   </span>
+                                                </button>
+                                                <ul uib-dropdown-menu="" role="menu" aria-labelledby="btn-append-to-body" class="dropdown-menu">
+                                                   <li role="menuitem">
+                                                      <a href="#/app/thongtintauchitiet/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Xem Chi Tiết Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li class="divider"></li>
+                                                   <li ng-if="(item.TrangThai!==6)">
+                                                      <a href="#/app/catmocxe/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Cắt Móc Xe</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai===3 || item.TrangThai===5)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai===3 || item.TrangThai===5)">
+                                                      <a href="#/app/chitiettausaptien/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Tiễn Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)">
+                                                      <a href="#/app/chitiettaudonvaoga/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Đón Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)">
+                                                      <a href="#/app/tacnghiepthongtau/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Thông Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai &lt; 6) &amp;&amp; (item.LoaiDiaDiemHT===2)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai &lt; 6) &amp;&amp; (item.LoaiDiaDiemHT===2)">
+                                                      <a href="#/app/chitiettaugiaithekd/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Giải Thể Tàu KD</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai!==6 &amp;&amp; item.TrangThai!==4)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai!==6 &amp;&amp; item.TrangThai!==4) ">
+                                                      <a href="#/app/chitiettaugiaithe/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Giải Thể Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai!==6) " class="divider"></li>
+                                                   <li ng-if="(item.TrangThai!==6) ">
+                                                      <span style="font-size:12pt;padding-left:20px" ng-click="PopupChat(item)" class="text-bold">Bình Luận</span>
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-6">
+            <div style="width:100%;overflow:hidden">
+               <div style="text-align: left;margin:0px -18px 0px 0px;padding-right:18px;overflow-y:auto;height:625px">
+                  <table class="table table-striped table-fixed">
+                     <thead ng-if="false">
+                        <tr>
+                           <th style="width:90%;padding:4px; margin:4px;" class="text-center">TÀU LẺ</th>
+                           <th style="vertical-align:top;" class="text-center w10"></th>
+                        </tr>
+                     </thead>
+                     <tbody ng-repeat="diadiem in diadiemTauItems">
+                        <tr ng-if="diadiem.PearTrains.length &gt; 0">
+                           <td style="vertical-align:top;">
+                              <div class="table-responsive">
+                                 <table class="table table-bordered table-hover">
+                                    <tbody ng-repeat="item in diadiem.PearTrains">
+                                       <tr>
+                                          <td style="border-right:none;" class="w25 text-left">
+                                             <div uib-dropdown="" dropdown-append-to-body="" class="btn-group">
+                                                <button id="btn-append-to-body" type="button" uib-tooltip="Tác nghiệp khác" uib-dropdown-toggle="" class="btn btn-lg btn-square btn-default">
+                                                   <span style="font-size:15pt" class="icon-list pull-left">
+                                                      <span></span>
+                                                   </span>
+                                                </button>
+                                                <ul uib-dropdown-menu="" role="menu" aria-labelledby="btn-append-to-body" class="dropdown-menu">
+                                                   <li role="menuitem">
+                                                      <a href="#/app/thongtintauchitiet/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Xem Chi Tiết Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li class="divider"></li>
+                                                   <li ng-if="(item.TrangThai!==6)">
+                                                      <a href="#/app/catmocxe/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Cắt Móc Xe</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai===3 || item.TrangThai===5)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai===3 || item.TrangThai===5)">
+                                                      <a href="#/app/chitiettausaptien/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Tiễn Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)">
+                                                      <a href="#/app/chitiettaudonvaoga/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Đón Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai===4) &amp;&amp; (item.LoaiDiaDiemHT===2)">
+                                                      <a href="#/app/tacnghiepthongtau/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Thông Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai &lt; 6) &amp;&amp; (item.LoaiDiaDiemHT===2)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai &lt; 6) &amp;&amp; (item.LoaiDiaDiemHT===2)">
+                                                      <a href="#/app/chitiettaugiaithekd/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Giải Thể Tàu KD</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai!==6 &amp;&amp; item.TrangThai!==4)" class="divider"></li>
+                                                   <li ng-if="(item.TrangThai!==6 &amp;&amp; item.TrangThai!==4) ">
+                                                      <a href="#/app/chitiettaugiaithe/{{item.TauID}}">
+                                                         <span style="font-size:12pt" class="text-bold">Giải Thể Tàu</span>
+                                                      </a>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai!==6) " class="divider"></li>
+                                                   <li ng-if="(item.TrangThai!==6) ">
+                                                      <span style="font-size:12pt;padding-left:20px" ng-click="PopupChat(item)" class="text-bold">Bình Luận</span>
+                                                   </li>
+                                                   <li ng-if="(item.TrangThai!==6) " class="divider"></li>
+                                                </ul>
+                                                <button type="button" show-if-authenticated="F72" uib-tooltip="Xác nhận thành phần" ng-click="goToXacNhanLapTau(item)" ng-if="item.TrangThai == 2 || item.TrangThai == 1" class="btn btn-lg btn-square btn-default bg-button-xacnhan icon-check">
+                                                   <span style="font-size:15pt"></span>
+                                                </button>
+                                             </div>
+                                          </td>
+                                          <td style="border-left:none;" class="text-right w74 dash-noidung">
+                                             <span style="font-weight:bold;" ng-class="item.MaCTSoHuuTau=='FHN'? 'bg-fhn' : item.MaCTSoHuuTau=='FSG'?'bg-primary': item.MaCTSoHuuTau =='FRA'? 'bg-warning' : '' ">
+                                                <span ng-if="item.MacTau" ng-click="fnDieuDoTamDung(item)" title="Bấm vào đây để phát lệnh tạm dừng">{{item.MacTau}}</span>
+                                                <span ng-if="item.TrichDanSoHieuTau">({{item.TrichDanSoHieuTau}})</span>
+                                             </span>
+                                             <span ng-if="item.DauMaySo">&nbsp;({{item.DauMaySo}}</span>
+                                             <span ng-if="item.IsNoTN &gt; 0" style="color:red" title="tạm dừng theo mệnh lệnh của điều độ" class="fa fa-flag"></span>
+                                             <span ng-if="item.PhoneNumber">- {{item.PhoneNumber}}</span>
+                                             <span ng-if="item.DauMaySo">)</span>
+                                             <span>{{item.NgayXP|date:'HH:mm (dd/MM)'}}</span>
+                                             <br/>
+                                             <span>
+                                                <span>{{item.TenGaLT}}&equals;&gt;{{item.TenGaGT}}</span>
+                                             </span>
+                                             <br/>
+                                             <span>
+                                                <span ng-if="item.IsComment === 2" style="color:#ffcc00;font-size:18pt" data-blink="data-blink" ng-click="PopupChat(item)" class="fa fa-comment-o"></span>
+                                                <span ng-if="item.IsComment === 1" style="color:#ffcc00;font-size:18pt" ng-click="PopupChat(item)" class="fa fa-comment-o"></span>
+                                                <span>{{item.SoTP?item.SoTP : 0|number}}(xe)&nbsp;</span>
+                                                <span ng-if="item.TongSoDM &gt; 0">{{item.TongSoDM?item.TongSoDM : 0|number}}(đầu máy)&nbsp;</span>
+                                             </span>
+                                             <span>
+                                                <span>{{item.TongChieuDai |number:2}}(m)&nbsp;</span>
+                                             </span>
+                                             <span>
+                                                <span>{{item.TongTongTrong? item.TongTongTrong.toFixed(2):0}} (tấn)&nbsp;</span>
+                                             </span>
+                                             <span ng-if="item.Vmax &gt; 0">
+                                                <span>{{item.Vmax|number}} (km/h)&nbsp;</span>
+                                             </span>
+                                             <span>
+                                                <span>{{item.LaiTau}}</span>
+                                                <span ng-if="item.LaiTau_Tel">({{item.LaiTau_Tel}})</span>
+                                             </span>
+                                          </td>
+                                          <td style="width:1px;cursor:pointer" ng-class="item.TrangThai==1?'khoitao': item.TrangThai==2? 'xacbao' : item.TrangThai==3? 'xacnhan': item.TrangThai==4? 'dichuyen' : item.TrangThai==5? 'dungdo' : '' " ng-mouseenter="getHanhTrinhTauByID(item)"
+                                          uib-popover-template="dynamicPopover.templateUrl" popover-trigger="mouseenter" popover-placement="left-top" popover-class="tooltip-popover-class"></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </td>
+                           <td style="width:15px" class="text-center">
+                              <p ng-bind-html="diadiem.TenDiaDiem" class="text-bold"></p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-lg-12">
+            &nbsp;</div>
+      </div>
+      <div class="row">
+         <div class="col-lg-6">
+            <div class="panel panel-default">
+               <div class="panel-heading">
+                  <div class="panel-title">Danh sách tàu đã giải thể thuộc bàn điều độ</div>
+               </div>
+               <div class="panel-body">
+                  <div style="width:100%;overflow:hidden">
+                     <div style="text-align: left;margin:0px -18px 0px 0px;padding-right:18px;overflow-y:auto;height:180px">
+                        <table style="width:100%;background-color:whitesmoke" ng-if="listTrain.length &gt; 0" class="table table-striped table-bordered">
+                           <thead class="table-caption-text">
+                              <tr>
+                                 <th style="vertical-align: middle; margin:0;padding:0px" class="text-center w2">#</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-left w10">Mác tàu</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-center w6">G.Lập tàu</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-center w5">G.Giải thể</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-center w8">Giờ giải thể</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-left w2">Tác nghiệp</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr data-ng-repeat="item in listTrain">
+                                 <td style="vertical-align: middle;font-weight: normal; margin:0;padding:0px" class="text-center">{{$index+1}}</td>
+                                 <td style="vertical-align: middle;font-weight: normal; margin:0;padding:0px" class="text-left">
+                                    <span style="font-weight:bold;"><a href="#/app/thongtintauchitiet/{{item.TauID}}" target="_blank">{{ item.MacTauUpper}}</a>
+                                    </span>
+                                    <span ng-if="item.DauMay_NgayXP">{{item.DauMay_NgayXP}}</span>
+                                 </td>
+                                 <td style="vertical-align: middle; font-weight: normal; margin:0;padding:0px" class="text-center">
+                                    <div>{{item.TenGaLT}}</div>
+                                 </td>
+                                 <td style="vertical-align: middle; font-weight: normal; margin:0;padding:0px" class="text-center">
+                                    <div>{{item.TenGaGT}}</div>
+                                 </td>
+                                 <td style="vertical-align: middle; font-weight: normal; margin:0;padding:0px" class="text-center">
+                                    <div>{{item.NgayGT|date:'HH:mm'}}</div>
+                                 </td>
+                                 <td style="margin:0;padding:0px" class="text-left">
+                                    <!--button.btn.btn-lg.btn-square.btn-default.icon-eye(type='button', ng-click='fnGoToPageViewThongTinTau(item.TauID)',uib-tooltip='Xem chi tiết tàu')span(style='font-size:9pt;')-->
+                                    <button type="button" ng-click="openInNhatKyCatMoc(item.TauID)" uib-tooltip="In nhật ký cắt móc" class="btn btn-square btn-warning icon-book-open">
+                                       <span style="font-size:9pt;"></span>
+                                    </button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-6">
+            <div class="panel panel-default">
+               <div class="panel-heading">
+                  <div class="panel-title">Kế hoạch cắt xe tại ga</div>
+               </div>
+               <div class="panel-body">
+                  <div style="width:100%;overflow:hidden">
+                     <div style="text-align: left;margin:0px -18px 0px 0px;padding-right:18px;overflow-y:auto;height:180px">
+                        <table style="width:100%;background-color:whitesmoke" ng-if="gaCatXeItems.length &gt; 0" class="table table-striped table-bordered">
+                           <thead class="table-caption-text">
+                              <tr>
+                                 <th style="vertical-align: middle; margin:0;padding:0px" class="text-center w1">STT</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-left w8">Mác tàu</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-center w6">Vị trí</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-center w1">Xe</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-center w5">Ga cắt</th>
+                                 <th style="vertical-align: middle;margin:0;padding:0px" class="text-center w8">Ghi chú</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr data-ng-repeat="item in gaCatXeItems">
+                                 <td style="vertical-align: middle;font-weight: normal; margin:0;padding:0px" class="text-center">{{$index+1}}</td>
+                                 <td style="vertical-align: middle;font-weight: normal; margin:0;padding:0px" class="text-left">
+                                    <span style="font-size:10pt; font-weight:bold;"><a href="#/app/thongtintauchitiet/{{item.TauID}}" target="_blank">{{ item.MacTau}}</a>
+                                    </span>
+                                    <span ng-if="item.DauMay_NgayXP">{{item.DauMay_NgayXP}}</span>
+                                 </td>
+                                 <td style="vertical-align: middle; font-weight: normal; margin:0;padding:0px" class="text-center">
+                                    <div>{{item.ViTri}}</div>
+                                 </td>
+                                 <td style="vertical-align: middle; font-weight: normal; margin:0;padding:0px" class="text-center">
+                                    <div>{{item.SoXeCat|number}}</div>
+                                 </td>
+                                 <td style="vertical-align: middle; font-weight: normal; margin:0;padding:0px" class="text-center">
+                                    <div>{{item.GaCatXe}}</div>
+                                 </td>
+                                 <td style="vertical-align: middle; font-weight: normal; margin:0;padding:0px" class="text-left">
+                                    <span ng-if="item.NguoiNhan" style="font-weight:bold;">{{item.NguoiNhan}}</span>
+                                    <div ng-if="item.GhiChu">{{item.GhiChu}}</div>
+                                    <div ng-if="!item.GhiChu">Chưa nhận kế hoạch</div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div style="padding-left:0px;" class="col-lg-3">
+      <div style="width:100%;overflow:hidden; padding-left:0px;">
+         <div style="width:99%;text-align: left;position: relative;right:-22px;overflow-y:scroll;height:925px">
+            <uib-accordion close-others="false">
+               <uib-accordion-group ng-repeat="ga in gaReportItems" style="padding:0px; margin:0px;">
+                  <uib-accordion-heading>
+                     <div class="row">
+                        <div style="padding-top:10px;" class="col-md-6">
+                           <p ng-bind-html="ga.TenGaHienThi"></p>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="pull-right">
+                              <!--span(class='glyphicon glyphicon-cloud', ng-if='ga.IsCPAo')-->
+                              <!--button.btn.btn-sm.btn-square.btn-default.icon-grid(type='button', ng-click='viewChiTietCapRong(ga)',uib-tooltip='Kế hoạch cấp rỗng')-->
+                              <button type="button" ng-click="openXemKQCapXe(ga)" uib-tooltip="Kế hoạch cấp rỗng" class="btn btn-sm btn-square btn-default icon-grid"></button>
+                              <button type="button" ng-click="viewDetail(ga)" uib-tooltip="Chi tiết tại ga" class="btn btn-sm btn-square btn-default icon-eye"></button>
+                           </div>
+                        </div>
+                     </div>
+                  </uib-accordion-heading>
+                  <div style="width:auto;margin-left:0;margin-right:0;word-wrap: break-word; padding:0px;">
+                     <table class="w100">
+                        <tbody>
+                           <tr>
+                              <td class="w3"></td>
+                              <td class="w96">
+                                 <table class="table table-hover">
+                                    <tbody>
+                                       <tr ng-repeat="item in ga.TinhHinhXeThuongVuItems">
+                                          <td class="text-left w19 border_bottom">{{item.TenTrangThaiTV}}</td>
+                                          <td class="text-left w80 border_bottom">
+                                             <span ng-repeat="xe in item.TinhHinhXeItems">
+                                                <span ng-class="{'bg-fhn':xe.MaCTSoHuu ==='FHN','bg-success':xe.MaCTSoHuu ==='FSG','bg-warning':xe.MaCTSoHuu ==='FRA','bg-primary':xe.MaCTSoHuu ==='TCT'}" style="cursor:pointer;" ng-click="openViewChiTietXeTaiGa(ga.GaHienThoiID,xe.TrangThaiTV, xe.TrangThaiKT, xe.MaCTSoHuu, xe.PhanLoaiXe)">
+                                                   <span ng-if="xe.TrangThaiKT!==1 &amp;&amp; xe.TrangThaiKT!==4 &amp;&amp; xe.TrangThaiKT!==6">(</span><u ng-if="xe.Kho_15 &gt; 0">{{xe.Soluong}}{{xe.PhanLoaiXe}}</u>
+                                                   <span ng-if="xe.Kho_15 == 0">{{xe.Soluong}}{{xe.PhanLoaiXe}}</span>
+                                                   <span ng-if="xe.TrangThaiKT!==1 &amp;&amp; xe.TrangThaiKT!==4 &amp;&amp; xe.TrangThaiKT!==6">)</span>
+                                                </span>
+                                                <span ng-if="!$last">,</span>
+                                             </span>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </uib-accordion-group>
+            </uib-accordion>
+         </div>
+      </div>
+   </div>
+</div>
+<div style="padding:0px; vertical-align:bottom;" class="row">
+   <div class="col-md-12">
+      <div class="pull-left">
+         <span>Ghi chú:</span>
+         <span style="color:#999966" class="fa fa-square"></span>
+         <span>Khởi tạo</span>
+         <span style="color:#9900ff" class="fa fa-square"></span>
+         <span>Chờ xác nhận TP</span>
+         <span style="color:#ffff00" class="fa fa-square"></span>
+         <span>Đã xác nhận TP</span>
+         <span style="color:#33cc33" class="fa fa-square"></span>
+         <span>Đang di chuyển</span>
+         <span style="color:#ff4000" class="fa fa-square"></span>
+         <span>Đang dừng đỗ</span>
+      </div>
+   </div>
+</div>

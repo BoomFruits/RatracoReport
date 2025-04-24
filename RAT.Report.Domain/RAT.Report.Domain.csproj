@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{32A8BBED-2EFC-4E5E-9ED6-13500035DFE3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RAT.Report.Domain</RootNamespace>
+    <AssemblyName>RAT.Report.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\ThucHien_Contant.cs" />
+    <Compile Include="Constants\BanHang_Contant.cs" />
+    <Compile Include="Constants\WFL_Process.cs" />
+    <Compile Include="Constants\WFL_KetQuaXuLy.cs" />
+    <Compile Include="Constants\WFL_RefDataType.cs" />
+    <Compile Include="Constants\WFL_LoaiDieuKien.cs" />
+    <Compile Include="Constants\WFL_TrangThaiThucHien.cs" />
+    <Compile Include="DTO\BanHang\BangGiaVCT.cs" />
+    <Compile Include="DTO\BanHang\BaoGiaDto.cs" />
+    <Compile Include="DTO\BanHang\NCVCDto.cs" />
+    <Compile Include="DTO\BanHang\HDVCDto.cs" />
+    <Compile Include="DTO\BanHang\PAVCDto.cs" />
+    <Compile Include="DTO\BanHang\BangGiaNCC.cs" />
+    <Compile Include="DTO\BanHang\YCVCDto.cs" />
+    <Compile Include="DTO\Caching\CacheData.cs" />
+    <Compile Include="DTO\CauHinhWFL\CapNhatPhanQuyenInput.cs" />
+    <Compile Include="DTO\CauHinhWFL\CapNhatUyQuyenInput.cs" />
+    <Compile Include="DTO\DanhMucOld\DMDonViTinhDto.cs" />
+    <Compile Include="DTO\DanhMucOld\DMDiaBanDto.cs" />
+    <Compile Include="DTO\DanhMucOld\DMTuyenDto.cs" />
+    <Compile Include="DTO\DanhMucOld\DMGaDto.cs" />
+    <Compile Include="DTO\DanhMucOld\DonViDto.cs" />
+    <Compile Include="DTO\DanhMucOld\NhanVienDto.cs" />
+    <Compile Include="DTO\Common\RusultItemDto.cs" />
+    <Compile Include="DTO\CauHinhWFL\PhanQuyenInput.cs" />
+    <Compile Include="DTO\DanhMuc\XuongSuaChuaInfo.cs" />
+    <Compile Include="DTO\DanhMuc\LoaiHinhVCInfo.cs" />
+    <Compile Include="DTO\DanhMuc\NhanVienInfo.cs" />
+    <Compile Include="DTO\DanhMuc\HangHoaInfo.cs" />
+    <Compile Include="DTO\DanhMuc\DonViInfo.cs" />
+    <Compile Include="DTO\DanhMuc\DonViTinhInfo.cs" />
+    <Compile Include="DTO\DanhMuc\LoaiTacNghiepInfo.cs" />
+    <Compile Include="DTO\DanhMuc\ZoneInfo.cs" />
+    <Compile Include="DTO\DanhMuc\KhachHangInfo.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMCuaVe.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMDonVi.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMGa.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMKhuyenMaiMaster.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMLePhiTV.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMLoaiCho.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMNhanVien.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMPhuongThuc.cs" />
+    <Compile Include="DTO\DanhMuc\Old\DMTuyen.cs" />
+    <Compile Include="DTO\DanhMuc\Old\LoaiVeBS.cs" />
+    <Compile Include="DTO\DanhMuc\Old\NhomDichVu.cs" />
+    <Compile Include="DTO\DanhMuc\Old\ThongTinDaiLy.cs" />
+    <Compile Include="DTO\DanhMuc\SelectListItem.cs" />
+    <Compile Include="DTO\DanhMuc\TreeView.cs" />
+    <Compile Include="DTO\DieuHanh\BookingDto.cs" />
+    <Compile Include="DTO\DieuHanh\CalendarDto.cs" />
+    <Compile Include="DTO\DonGia\DonGiaDto.cs" />
+    <Compile Include="DTO\thuchientram\ThucHienTramDto.cs" />
+    <Compile Include="DTO\DieuHanh\KeHoachTauTuanDto.cs" />
+    <Compile Include="DTO\DieuHanh\KHVCDto.cs" />
+    <Compile Include="DTO\DieuHanh\KHVCGiamSatDto.cs" />
+    <Compile Include="DTO\IsSucceededValue.cs" />
+    <Compile Include="DTO\Test\TestItem.cs" />
+    <Compile Include="DTO\ThucHien\KHVCToThucHIenDto.cs" />
+    <Compile Include="DTO\ThucHien\ThucHienTaskDto.cs" />
+    <Compile Include="DTO\Workflow\CanBoPheDuyet.cs" />
+    <Compile Include="DTO\Workflow\DieuKienUyQuyenDTO.cs" />
+    <Compile Include="DTO\Workflow\DieuKienUyQuyenInfo.cs" />
+    <Compile Include="DTO\Workflow\ListCanBoPheDuyetInput.cs" />
+    <Compile Include="DTO\Workflow\ListPhanQuyenOutput.cs" />
+    <Compile Include="DTO\Workflow\ObjectTableDTO.cs" />
+    <Compile Include="DTO\Workflow\PhanQuyenDTO.cs" />
+    <Compile Include="DTO\Workflow\PheDuyetInput.cs" />
+    <Compile Include="DTO\Workflow\ProcessDTO.cs" />
+    <Compile Include="DTO\Workflow\ProcessObject.cs" />
+    <Compile Include="DTO\Workflow\ReferenceDTO.cs" />
+    <Compile Include="DTO\Workflow\TaskCanBoOutput.cs" />
+    <Compile Include="DTO\Workflow\TrinhDuyetInput.cs" />
+    <Compile Include="DTO\Workflow\UyQuyenDTO.cs" />
+    <Compile Include="DTO\YCVC\YCVCDto.cs" />
+    <Compile Include="Entities\BangGia\BanggiaVCT.cs" />
+    <Compile Include="Entities\BangGia\BanggiaNCC.cs" />
+    <Compile Include="Entities\BaoGia\BaoGia.cs" />
+    <Compile Include="Entities\DanhMuc\DMXuongSuaChuaToaXe.cs" />
+    <Compile Include="Entities\DanhMuc\DMLoaiHinhVC.cs" />
+    <Compile Include="Entities\DanhMuc\DMHangHoa.cs" />
+    <Compile Include="Entities\DanhMuc\DMDonVi.cs" />
+    <Compile Include="Entities\DanhMuc\DMNhanVien.cs" />
+    <Compile Include="Entities\DanhMuc\DMDonViTinh.cs" />
+    <Compile Include="Entities\DanhMuc\DMLoaiTacNghiep.cs" />
+    <Compile Include="Entities\DanhMuc\DMZone.cs" />
+    <Compile Include="Entities\DanhMuc\DMKhachHang.cs" />
+    <Compile Include="Entities\DieuHanh\Booking.cs" />
+    <Compile Include="Entities\DieuHanh\CalendarEntity.cs" />
+    <Compile Include="Entities\DieuHanh\KeHoachChayTauEntity.cs" />
+    <Compile Include="Entities\DieuHanh\KeHoachVanChuyenEntity.cs" />
+    <Compile Include="Entities\DieuHanh\ThucHienTaskEntity.cs" />
+    <Compile Include="Entities\DieuHanh\ThuChiPhatSinhEntity.cs" />
+    <Compile Include="Entities\DonGia\DonGiaEntity.cs" />
+    <Compile Include="Entities\HopDong\HopDong_Detail.cs" />
+    <Compile Include="Entities\Mobile\DMLenhType.cs" />
+    <Compile Include="Entities\NCVC\NCVCEntity.cs" />
+    <Compile Include="Entities\PAVC\PAVC.cs" />
+    <Compile Include="Entities\PAVC\PAVCTemplate.cs" />
+    <Compile Include="Entities\ThucHien\ThucHienTask.cs" />
+    <Compile Include="Entities\Workflow\DieuKienUyQuyenEntity.cs" />
+    <Compile Include="Entities\Workflow\ProcessEntity.cs" />
+    <Compile Include="Entities\Workflow\PhanQuyenEntity.cs" />
+    <Compile Include="Entities\Workflow\ReferenceEntity.cs" />
+    <Compile Include="Entities\Workflow\TaskEntity.cs" />
+    <Compile Include="Entities\Workflow\RequestEntity.cs" />
+    <Compile Include="Entities\Workflow\UyQuyenEntity.cs" />
+    <Compile Include="Entities\YCVC\YCVCEntity.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,257 @@
+   <!-- START Language list-->
+<!--<div class="pull-right">
+   <div uib-dropdown="" is-open="language.listIsOpen" class="btn-group">
+      <button type="button" uib-dropdown-toggle="" class="btn btn-default">{{language.selected}}
+         <span class="caret"></span>
+      </button>
+      <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+         <li ng-repeat="(localeId, langName) in language.available"><a ng-click="language.set(localeId, $event)" href="#">{{langName}}</a>
+         </li>
+      </ul>
+   </div>
+</div>-->
+<!-- END Language list    -->
+<div class="w100">
+    <div style="font-weight:bold"><a href="{{urlsetting.tmsurl}}" style="text-decoration:none" title="Bấm vào đây quay lại hệ thống TMS" target="_blank">Hệ THỐNG TMS</a></div>
+</div>
+<div class="panel panel-default">
+  <div class="panel panel-heading">
+    <h4 style="padding:0px;margin:5px;font-weight:bold;color:darkorange">I.BẢNG KÊ</h4>
+    <!-- START widgets box-->
+  </div>
+  <div class="panel panel-body">
+    <div class="row">
+      <div class="col-lg-4">
+        <div id="panelChart1" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Bảng kê trung tâm điều hành vận tải</div>
+          </div>
+          <div uib-collapse="panelChart1" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTTDH01">1.Bảng kê chi trả dịch vụ cẩu</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTTDH02">2.Bảng kê chi trả dịch vụ vận chuyển đường bộ</a></td>
+                  </tr>
+
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTTDH03">3.Bảng kê chi trả dịch vụ vận chuyển đường sắt</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTTDH04">4.Bảng kê chi trả dịch vụ vận chuyển đường biển</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTTDH05">5.Bảng kê chi trả dịch vụ hỗ trợ vận tải</a></td>
+                  </tr>
+                  <!--<tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTTDH06">6.Bảng kê chi trả dịch vụ thuê Container</a></td>
+                  </tr>-->
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div id="panelChart2" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Bảng kê trung tâm vận tải nội địa</div>
+          </div>
+          <div uib-collapse="panelChart2" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTTVTND01">1.Bảng kê thu cước khách hàng nội địa</a></td>
+                  </tr>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div id="panelChart3" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Bảng kê trạm vận tải</div>
+          </div>
+          <div uib-collapse="panelChart3" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BK/BKTram01">1.Bảng kê kế hoạch xếp dỡ theo ngày</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel panel-heading">
+    <h4 style="padding:0px;margin:5px;font-weight:bold;color:darkorange">II.BÁO CÁO</h4>
+    <!-- START widgets box-->
+  </div>
+  <div class="panel panel-body">
+    <div class="row">
+      <div class="col-lg-4">
+        <div id="panelChart4" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Báo cáo phòng an toàn và quản lý toa xe</div>
+          </div>
+          <div uib-collapse="panelChart4" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCQLX01">1.Báo cáo hồ sơ kỹ thuật</a></td>
+                  </tr>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div id="panelChart5" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Báo cáo trạm vận tải</div>
+          </div>
+          <div uib-collapse="panelChart5" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCHH01">1.Báo cáo tác nghiệp cẩu</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCHH02">2.Báo cáp tổng hợp SXKD trung tâm</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCHH03">3.Báo cáo tổng hợp sản lượng xếp dỡ TTVT</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div id="panelChart6" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Báo cáo trung tâm nội địa</div>
+          </div>
+          <div uib-collapse="panelChart6" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCND01">1.Báo cáo doanh thu tổng hợp</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCND02">2.Báo cáo doanh thu, sản lượng theo kế hoạch</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCND03">3.Báo cáo doanh thu theo người quản lý</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCND04">4.Báo cáo sản lượng khách hàng theo tháng</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4">
+        <div id="panelChart7" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Báo cáo trung tâm liên vận quốc tế</div>
+          </div>
+          <div uib-collapse="panelChart7" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCLV01">1.Báo cáo tổng hợp vận tải quốc tế</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCLV02">2.Báo cáo chi tiết doanh thu, sản lượng quốc tế</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div id="panelChart8" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Báo cáo trung tâm điều hành</div>
+          </div>
+          <div uib-collapse="panelChart8" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCDH01">1.Báo cáo tình hình vận dụng Container</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCDH02">2.Báo cáo tình hình đọng Container</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div id="panelChart9" class="panel panel-primary">
+          <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">Báo cáo ban lãnh đạo</div>
+          </div>
+          <div uib-collapse="panelChart9" class="panel-wrapper" style="overflow-y: auto; max-height: 250px;">
+            <div class="panel-body">
+              <div dataset="dash.splineData" options="dash.splineOptions">
+                <table class="table table-bordered">
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCQT01">1.Báo cáo tổng hợp kết quả vận tải</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCQT02">2.Báo cáo kết quả vận tải theo tàu</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCQT03">3.Báo cáo tổng hợp tình hình xếp dỡ</a></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;"><a rel="stylesheet" href="#/app/BC/BCQT04">4.Báo cáo chi tiết dịch vụ ngoài vận tải</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

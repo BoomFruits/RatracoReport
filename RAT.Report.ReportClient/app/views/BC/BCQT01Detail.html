@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-6">
+        <h4 style="margin:5px">
+            {{Title}}
+            <!--small A showcase of different components inside tables-->
+        </h4>
+    </div>
+
+</div>
+<!-- START panel-->
+<div class="panel panel-default" style="padding:5px">
+    <div class="panel-body">
+        <!-- START table-responsive-->
+        <div class="table-responsive">
+            <table id="tblBCQT01Detail" class="table table-bordered table-hover freeheadertable">
+                <thead>
+                    <tr>
+                        <th class="text-center w5" style="font-size:9pt">STT</th>
+                        <th class="text-center w10" style="font-size:9pt">Mác tàu</th>
+                        <th class="text-center w15" style="font-size:9pt">Phương tiện</th>
+                        <th class="text-center w15" style="font-size:9pt">Khách hàng/Hàng hóa</th>
+                        <th class="text-center w15" style="font-size:9pt">Ga đi/Ga đến</th>
+                        <th class="text-center w10" style="font-size:9pt">Tấn TT</th>
+                        <th class="text-center w10" style="font-size:9pt">Tấn KMHH /
+                            <br />Tấn KMTT</th>
+                        <th class="text-center w10" style="font-size:9pt">Doanh thu booking</th>
+                        <th class="text-center w10" style="font-size:9pt">Doanh thu ga-ga</th>
+                        <th class="text-center w15" style="font-size:9pt">Chi phí</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in BCQT01Detail.Data">
+                        <td class="text-center w5" style="font-size:9pt">
+                            {{$index + 1}}
+                        </td>
+                        <td class="text-center w10" style="font-size:9pt">
+                            <div>{{item.MacTau}}
+                                <span>({{item.MaCTSoHuuTau}})</span>
+                            </div>
+                            <div>{{item.NgayXP|date:'dd/MM/yyyy'}}</div>
+                        </td>
+
+                        <td class="text-center w15" style="font-size:9pt">
+                            <div>{{item.SoBooking}}</div>
+                            <div>{{item.SoHieuCont}}</div>
+                            <div>{{item.SoHieuXe}}</div>
+                        </td>
+                        <td class="text-center w15" style="font-size:9pt">
+                            <div style="border-bottom:ridge">{{item.KhachHang_Ten}}</div>
+                            <div>{{item.TenHang}}</div>
+                        </td>
+                        <td class="text-center w15" style="font-size:9pt">
+                            <div style="border-bottom:ridge">{{item.TenGaDi}}</div>
+                            <div>{{item.TenGaDen}}</div>
+                        </td>
+                        <td class="text-center w10" style="font-size:9pt">
+                            {{item.TanTT|number:2}}
+                        </td>
+                        <td class="text-center w10" style="font-size:9pt">
+                            <div>{{item.TanKMHH|number:2}}</div>
+                            <div>{{item.TanKMTT|number:2}}</div>
+                        </td>
+
+                        <td class="text-center w10" style="font-size:9pt">
+                            {{item.DoanhThuBooking|number}}
+                        </td>
+                        <td class="text-center w10" style="font-size:9pt">
+                            {{item.DoanThuGaGa|number}}
+                        </td>
+                        <td class="text-left w15" style="font-size:9pt">
+                            <div>Đ.xếp:{{item.TienDauXep|number}}</div>
+                            <div>Đ.dỡ:{{item.TienDauDo|number}}</div>
+                            <div>P.sinh:{{item.TienPhatSinh|number}}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- END table-responsive-->
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-default" ng-click="Dong()" ng-enter="Dong()" tabindex="1+" enter>
+                    <span class="fa fa-sign-out"></span>&nbsp;Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,255 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">BCQT02: BÁO CÁO KẾT QUẢ VẬN TẢI THEO TÀU</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày bắt đầu
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="Ngay_BatDau" ng-model="input.Ngay_BatDau" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgay_BatDau" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgay_BatDau=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="Ngay_BatDau">Ngày bắt đầu không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày kết thúc
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="Ngay_KetThuc" ng-model="input.Ngay_KetThuc" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgay_KetThuc" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgay_KetThuc=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="Ngay_KetThuc">Ngày kết thúc không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Mác tàu</span>
+                            <input type="text" class="form-control" ng-model="input.MacTau"
+                            id="MacTau" name="MacTau" enter tabindex="1+" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Công ty</span>
+                            <select type="text" name="MaNCC" ng-model="input.MaNCC"
+                            class="form-control">
+                                <option value="">-Tất cả-</option>
+                                <option value="NCC048">Ratraco</option>
+                                <option value="NCC025">Hà Nội</option>
+                                <option value="NCC046">Sài gòn</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo</button>
+                    <button type="submit" ng-disabled="loading"
+                    class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div>
+            <span class="fa fa-info-circle">&nbsp;</span>Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm
+            [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu
+            <strong class="text-danger">(*)</strong>&nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <!-- <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>-->
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO KẾT QUẢ VẬN TẢI THEO TÀU</h4>
+                        <div>Ngày từ {{report.Input.Ngay_BatDau|date:'dd/MM/yyyy'}} đến {{report.Input.Ngay_KetThuc|date:'dd/MM/yyyy'}}</div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: BCQT02</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-12" style="overflow:auto">
+                    <table class="table table-bordered table-hover report-table table-responsive"
+                    style="margin-bottom:0px;padding-bottom:0px">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="font-size:9pt" rowspan="3">STT</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="3">Mác tàu</th>
+                                <th class="text-center" style="font-size:9pt" colspan="10">SẢN LƯỢNG</th>
+                                <th class="text-center" style="font-size:9pt" colspan="2">DOANH THU</th>
+                                <th class="text-center" style="font-size:9pt" colspan="11">CHI PHÍ</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="3">CHÊNH LỆCH</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">Số DT</th>
+                                <th class="text-center" style="font-size:9pt" colspan="2">SL TX</th>
+                                <th class="text-center" style="font-size:9pt" colspan="2">SL Cont</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">Tấn xếp</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">Tự trọng xe</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">T.Km HH</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">T.Km TT</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">ĐT Km</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">DT(ga-ga)</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">Tổng DT</th>
+                                <th class="text-center" style="font-size:9pt" colspan="7">ĐHGT ĐS</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">Cước VC</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">Đầu xếp</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">Đầu dỡ</th>
+                                <th class="text-center" style="font-size:9pt" rowspan="2">C.phí H.quan</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center " style="font-size:9pt">N</th>
+                                <th class="text-center " style="font-size:9pt">R</th>
+                                <th class="text-center " style="font-size:9pt">N</th>
+                                <th class="text-center " style="font-size:9pt">R</th>
+                                <th class="text-center " style="font-size:9pt">ĐH</th>
+                                <th class="text-center " style="font-size:9pt">SK</th>
+                                <th class="text-center " style="font-size:9pt">Dồn tàu</th>
+                                <th class="text-center " style="font-size:9pt">KCKT</th>
+                                <th class="text-center " style="font-size:9pt">Vạn tấn KM</th>
+                                <th class="text-center " style="font-size:9pt">Dịch vụ HH</th>
+                                <th class="text-center " style="font-size:9pt">Khác</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center " style="font-size:9pt">(1)</th>
+                                <th class="text-center " style="font-size:9pt">(2)</th>
+                                <th class="text-center " style="font-size:9pt">(3)</th>
+                                <th class="text-center " style="font-size:9pt">(4)</th>
+                                <th class="text-center " style="font-size:9pt">(5)</th>
+                                <th class="text-center " style="font-size:9pt">(6)</th>
+                                <th class="text-center " style="font-size:9pt">(7)</th>
+                                <th class="text-center " style="font-size:9pt">(8)</th>
+                                <th class="text-center " style="font-size:9pt">(9)</th>
+                                <th class="text-center " style="font-size:9pt">(10)</th>
+                                <th class="text-center " style="font-size:9pt">(11)</th>
+                                <th class="text-center " style="font-size:9pt">(12)</th>
+                                <th class="text-center " style="font-size:9pt">(13)</th>
+                                <th class="text-center " style="font-size:9pt">(14)</th>
+                                <th class="text-center " style="font-size:9pt">(15)</th>
+                                <th class="text-center " style="font-size:9pt">(16)</th>
+                                <th class="text-center " style="font-size:9pt">(17)</th>
+                                <th class="text-center " style="font-size:9pt">(18)</th>
+                                <th class="text-center " style="font-size:9pt">(19)</th>
+                                <th class="text-center " style="font-size:9pt">(20)</th>
+                                <th class="text-center " style="font-size:9pt">(21)</th>
+                                <th class="text-center " style="font-size:9pt">(22)</th>
+                                <th class="text-center " style="font-size:9pt">(23)</th>
+                                <th class="text-center " style="font-size:9pt">(24)</th>
+                                <th class="text-center " style="font-size:9pt">(25)</th>
+                                <th class="text-center " style="font-size:9pt">(26)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in report.Data">
+                                <td class="text-center" style="font-size:9pt">{{$index + 1}}</td>
+                                <td class="text-center" style="font-size:9pt">
+                                    <div class="hovertext" ng-click="ShowDetail(item)">{{item.MacTau}}</div>
+                                    <div ng-show="item.MacTau !=='DBO'">{{item.NgayXP|date:'dd/MM/yyyy'}}</div>
+                                </td>
+                                <td class="text-center" style="font-size:9pt">1</td>
+                                <td class="text-center" style="font-size:9pt">{{item.SLToa_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{item.SLToa_Rong|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{item.SLCONT_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{item.SLCONT_Rong|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.TanTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.TuTrongXe|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.TanKMHH|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.TanKMTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DoanTauKM|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DoanThuGaGa|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DoanhThuBookingTau|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DHGT_DH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DHGT_SK|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DHVT_TienDon|number}}</td>
+                                <td class="text-right" style="font-size:9pt"
+                                ng-click="ShowDetail2(item)">{{item.DHGT_KCKT|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DHGT_VanTanKM|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DHGT_DichVuHH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DHGT_Khac|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.DHVT_CuocVC|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.TienDauXep|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.TienDauDo|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{item.ChiPhiHaiQuan|number}}</td>
+                                <td class="text-right" style="font-size:9pt;color:red">{{item.ChenhLech|number}}</td>
+                            </tr>
+                            <tr style="font-weight:bold">
+                                <td class="text-center" style="font-size:9pt" colspan="2">Tổng cộng</td>
+                                <td class="text-center" style="font-size:9pt">{{report.Data.length}}</td>
+                                <td class="text-center" style="font-size:9pt">{{report.Tong.SLToa_Nang}}</td>
+                                <td class="text-center" style="font-size:9pt">{{report.Tong.SLToa_Rong}}</td>
+                                <td class="text-center" style="font-size:9pt">{{report.Tong.SLCONT_Nang}}</td>
+                                <td class="text-center" style="font-size:9pt">{{report.Tong.SLCONT_Rong}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.TanTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.TuTrongXe|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.TanKMHH|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.TanKMTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DoanTauKM|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DoanThuGaGa|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DoanhThuBookingTau|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHGT_DH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHGT_SK|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHVT_TienDon|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHGT_KCKT|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHGT_VanTanKm|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHGT_DichVuHH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHGT_Khac|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.DHVT_CuocVC|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.TienDauXep|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.TienDauDo|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{report.Tong.ChiPhiHaiQuan|number}}</td>
+                                <td class="text-right" style="font-size:9pt;color:red">{{report.Tong.ChenhLech|number}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-info">
+                <div>
+                    <span class="fa fa-info-circle">&nbsp;</span>Ghi chú</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy
+                    HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

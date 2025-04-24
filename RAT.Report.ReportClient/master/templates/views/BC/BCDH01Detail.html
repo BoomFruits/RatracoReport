@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-md-6">
+    <h4 style="margin:5px">
+   {{Title}}
+      <!--small A showcase of different components inside tables-->
+    </h4>
+  </div>
+  
+</div>
+<!-- START panel-->
+<div class="panel panel-default" style="padding:5px">
+  <div class="panel-body">    
+    <!-- START table-responsive-->
+    <div class="table-responsive">
+      <table id="tblBCDH01Detail" class="table table-bordered table-hover freeheadertable">
+        <thead>
+          <tr>
+            <th class="text-center w5">STT</th>
+            <th class="text-center w10">Loại cont</th>
+            <th class="text-center w10">Số booking</th>
+            <th class="text-center w10">Số cont</th>
+            <th class="text-center w10">Số YCVC</th>
+            <th class="text-center w15">Thời gian bắt đầu/<br>Thời gian kết thúc</th>
+            <th class="text-center w10">Số giờ</th>
+            <th class="text-center w10">Khu vực đóng</th>
+            <th class="text-center w10">Khu vực trả</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in BCDH01Detail.Data">
+            <td class="text-center w5">
+              {{$index + 1}}
+            </td>
+            <td class="text-left w10" style="font-size:9pt">
+              {{item.Loai}}
+            </td>
+            <td class="text-left w10" style="font-size:9pt">
+              {{item.SoBooking}}
+            </td>
+            <td class="text-left w10" style="font-size:9pt">
+              {{item.SOCONT}}
+            </td>
+            <td class="text-left w10" style="font-size:9pt">
+              {{item.SoYCVC}}
+            </td>
+            <td class="text-center w15" style="font-size:9pt">
+              {{item.ThoiGianBD|date:'dd/MM/yyyy HH:mm'}}<br>{{item.ThoiGianKT|date:'dd/MM/yyyy HH:mm'}}
+            </td>
+            <td class="text-center w10" style="font-size:9pt">
+              {{item.SoGio}}
+            </td>
+            <td class="text-left w10" style="font-size:9pt">
+              {{item.TenZoneDong}}              
+            </td>
+            <td class="text-center w10" style="font-size:9pt">
+              {{item.TenZoneTra}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- END table-responsive-->
+  </div>
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <button class="btn btn-default" ng-click="Dong()" ng-enter="Dong()" tabindex="1+" enter><span class="fa fa-sign-out"></span>&nbsp;Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>

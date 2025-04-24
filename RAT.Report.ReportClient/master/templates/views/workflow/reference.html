@@ -1,0 +1,53 @@
+<div style="text-align: right; margin-right: 20px; margin-bottom: 20px;">
+    <button type="button" class="btn btn-primary" style="font-size: 15px;" ng-click="editPopup()">Thêm mới</button>
+</div>
+<div class="panel panel-primary panel-body">
+
+    <div class="divPrintReport"style="font-family:'Times New Roman'">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-no-border">
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td class="text-center">
+                            <h2>Danh sách các cấu hình điều kiện ủy quyền của tài liệu {{ProcessName}}</h2>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row col-md-12 ">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Tên trường làm điều kiện ủy quyền</th>
+                    <th>Tên hiển thị</th>
+                    <th>Kiểu dữ liệu</th>
+                    <th>Ghi chú</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="n in data">
+                        <td>{{$index +1}}</td>
+                        <td>{{n.Name}}</td>
+                        <td>{{n.Label}}</td>
+                        <td>{{(listDataType|filter:{key:n.DataType}:true)[0].value}}</td>
+                        <td>{{(listControl|first:{key:n.Control}:true).value}}</td>
+                        <td style="max-width: 380px;">{{n.GhiChu}}</td>
+                        <td style="text-align: right;">
+                             <button type="button" class="btn btn-info" ng-click ="editPopup(n.ID)">Sửa</button> 
+                            <button type="button" class="btn btn-danger" ng-click="deleteReference(n.ID)">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<div style="text-align: right; margin-right: 20px; margin-bottom: 20px;">
+    <button type="button" class="btn btn-success" style="font-size: 15px;" ng-click="backToPhanQuyen()">Trở lại</button>
+</div>

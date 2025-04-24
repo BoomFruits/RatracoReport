@@ -1,0 +1,25 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">BCQLX01: BÁO CÁO HỒ SƠ KỸ THUẬT</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!--<button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-bar-chart-o"></em>&nbsp; Báo cáo
+                    </button>-->
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+
+</div>

@@ -1,0 +1,222 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">BCND01: BÁO CÁO DOANH THU TỔNG HỢP</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Tháng
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <select type="text" name="Thang" ng-model="input.Thang" class="form-control">
+                                <option value="1">Tháng 1</option>
+                                <option value="2">Tháng 2</option>
+                                <option value="3">Tháng 3</option>
+                                <option value="4">Tháng 4</option>
+                                <option value="5">Tháng 5</option>
+                                <option value="6">Tháng 6</option>
+                                <option value="7">Tháng 7</option>
+                                <option value="8">Tháng 8</option>
+                                <option value="9">Tháng 9</option>
+                                <option value="10">Tháng 10</option>
+                                <option value="11">Tháng 11</option>
+                                <option value="12">Tháng 12</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Năm
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <select type="text" name="Nam" ng-model="input.Nam" class="form-control">
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo
+                    </button>
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div>
+            <span class="fa fa-info-circle">&nbsp;</span>Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu
+            <strong class="text-danger">(*)</strong>&nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0&&report.Data2.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0||report.Data2.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <!--  <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>-->
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO DOANH THU TỔNG HỢP</h4>
+                        <div>Tháng {{report.Input.Thang}} năm {{report.Input.Nam}}</div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: BCND01</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="width:99%;height:600px;overflow: hidden;">
+                        <div style="width: 100%; overflow-y:scroll;overflow-x:hidden;">
+                            <table class="table table-bordered table-hover report-table" style="table-layout:fixed;margin-bottom:0px;padding-bottom:0px">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center w3" style="font-size:9pt">STT</th>
+                                        <th class="text-center w10" style="font-size:9pt">Các chỉ tiêu</th>
+                                        <th class="text-center w10" style="font-size:9pt">ĐVT</th>
+                                        <th class="text-center w10" style="font-size:9pt">KH {{report.Input.Nam}}</th>
+                                        <th class="text-center w10" style="font-size:9pt">Lũy kế</th>
+                                        <th class="text-center w10" style="font-size:9pt">KH T{{report.Input.Thang}}</th>
+                                        <th class="text-center w10" style="font-size:9pt">TH T{{report.Input.Thang}}</th>
+                                        <th class="text-center w10" style="font-size:9pt">Tỷ lệ thực hiện T{{report.Input.Thang}}</th>
+                                        <th class="text-center w10" style="font-size:9pt">Tỷ lệ thực hiện cùng kỳ T{{report.Input.Thang}}</th>
+                                        <th class="text-center w10" style="font-size:9pt">Tỷ lệ thực hiện cả năm</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center w3" style="font-size:9pt">(1)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(2)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(3)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(4)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(5)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(6)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(7)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(8)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(9)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(10)</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div style="width:100%;height:100%;overflow:hidden;">
+                            <div style="height:90%; margin-top: -30px; overflow-y:scroll;overflow-x:hidden;">
+                                <table class="table table-bordered  table-hover table-report" style="table-layout:fixed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center w3"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" style="font-weight:bold">I</td>
+                                            <td style="font-weight:bold">SẢN LƯỢNG</td>
+                                        </tr>
+                                        <tr ng-repeat-start="item in report.Data">
+                                            <td class="text-center" style="font-weight:normal;font-size:9pt">{{$index + 1}}</td>
+                                            <td class="text-center" style="font-size:9pt;font-weight:bold">
+                                                {{item.TenTuyen}}
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr ng-repeat-start="d in item.Items">
+                                            <td></td>
+                                            <td class="text-center" style="font-size:9pt">{{d.PhanLoaiXe}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d.DVT}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d.SanLuongKH|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d.LuyKe|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d.ThangKH|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d.ThangThucHien|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d.TyLeThucHienThang|number:2}}%</td>
+                                            <td class="text-center" style="font-size:9pt"></td>
+                                            <td class="text-center" style="font-size:9pt">{{d.TyLeThucHienNam|number:2}}%</td>
+                                        </tr>
+                                        <tr ng-repeat-end></tr>
+                                        <tr ng-repeat-end></tr>
+                                        <tr>
+                                            <td class="text-center" style="font-weight:bold">II</td>
+                                            <td style="font-weight:bold">DOANH THU</td>
+                                            <td class="text-center" style="font-weight:bold">VNĐ</td>
+                                        </tr>
+                                        <tr ng-repeat-start="item2 in report.Data2">
+                                            <td class="text-center" style="font-weight:normal;font-size:9pt">{{$index + 1}}</td>
+                                            <td class="text-center" style="font-size:9pt;font-weight:bold">
+                                                {{item2.TenTuyen}}
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr ng-repeat-start="d2 in item2.Items">
+                                            <td></td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.PhanLoaiXe}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.DVT}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.SanLuongKH|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.LuyKe|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.ThangKH|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.ThangThucHien|number}}</td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.TyLeThucHienThang|number:2}}%</td>
+                                            <td class="text-center" style="font-size:9pt"></td>
+                                            <td class="text-center" style="font-size:9pt">{{d2.TyLeThucHienNam|number:2}}%</td>
+                                        </tr>
+                                        <tr ng-repeat-end></tr>
+                                        <tr ng-repeat-end></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-info">
+                <div>
+                    <span class="fa fa-info-circle">&nbsp;</span>Ghi chú</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

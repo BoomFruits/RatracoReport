@@ -1,0 +1,30 @@
+<div ng-controller="WelcomeController" class="block-center mt-xl wd-xxl">
+   <div ng-show="isAuth">
+      <div class="text-info">Đang truy cập hệ thống ....</div>
+   </div>
+   <div ng-show="!isAuth">
+      <!-- START panel-->
+      <div class="panel panel-info panel-flat">
+         <div class="panel-heading text-center">
+            <a href="#">
+               <img src="app/img/logo.png" alt="Image" class="block-center img-rounded" />
+            </a>
+            <h4>HỆ THỐNG QUẢN LÝ ĐIỀU HÀNH VẬN TẢI</h4>
+         </div>
+         <div class="panel-body">
+            <h4 class="text-center text-info">Bạn chưa đăng nhập hệ thống</h4>
+            <p>- Nếu bạn đã có tài khoản trên hệ thống vui lòng click vào liên kết đăng nhập dưới đây để đăng nhập.</p>
+            <p>- Nếu bạn chưa có tài khoản vui lòng liên hệ với quản trị hệ thống để được cấp tài khoản truy cập.</p><a ng-click="login()" style="font-weight:bold;font-size:10pt" class="btn btn-block btn-info">Đăng nhập hệ thống</a>
+         </div>
+      </div>
+      <!-- END panel-->
+      <div class="p-lg text-center">
+         <span>&copy;</span>
+         <span ng-bind="app.year"></span>
+         <span>-</span>
+         <span ng-bind="app.name"></span>
+         <br/>
+         <span ng-bind="app.description"></span>
+      </div>
+   </div>
+</div>

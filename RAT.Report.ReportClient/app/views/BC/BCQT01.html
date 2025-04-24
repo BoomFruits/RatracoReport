@@ -1,0 +1,501 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">BCQT01: BÁO CÁO TỔNG HỢP KẾT QUẢ VẬN TẢI</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày bắt đầu
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="Ngay_BatDau" ng-model="input.Ngay_BatDau" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgay_BatDau" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgay_BatDau=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="Ngay_BatDau">Ngày bắt đầu không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày kết thúc
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="Ngay_KetThuc" ng-model="input.Ngay_KetThuc" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgay_KetThuc" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgay_KetThuc=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="Ngay_KetThuc">Ngày kết thúc không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Mác tàu</span>
+                            <input type="text" class="form-control" ng-model="input.MacTau"
+                            id="MacTau" name="MacTau" enter tabindex="1+" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Công ty</span>
+                            <select type="text" name="MaNCC" ng-model="input.MaNCC"
+                            class="form-control">
+                                <option value="">-Tất cả-</option>
+                                <option value="NCC048">Ratraco</option>
+                                <option value="NCC025">Hà Nội</option>
+                                <option value="NCC046">Sài gòn</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo</button>
+                    <button type="submit" ng-disabled="loading"
+                    class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div>
+            <span class="fa fa-info-circle">&nbsp;</span>Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm
+            [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu
+            <strong class="text-danger">(*)</strong>&nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0||!report.Data" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <!-- <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>-->
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO TỔNG HỢP KẾT QUẢ VẬN TẢI</h4>
+                        <div>Ngày từ {{report.Input.Ngay_BatDau|date:'dd/MM/yyyy'}} đến {{report.Input.Ngay_KetThuc|date:'dd/MM/yyyy'}}</div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: BCQT01</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-12" style="overflow:auto">
+                    <table class="table table-bordered table-hover report-table table-responsive"
+                    style="margin-bottom:0px;padding-bottom:0px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center " style="font-size:9pt" rowspan="3">STT</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="3">PHƯƠNG THỨC VẬN CHUYỂN</th>
+                                <th class="text-center " style="font-size:9pt"
+                                colspan="4">THÔNG TIN CƠ SỞ</th>
+                                <th class="text-center " style="font-size:9pt" colspan="10">SẢN LƯỢNG</th>
+                                <th class="text-center " style="font-size:9pt" colspan="4">DOANH THU</th>
+                                <th class="text-center " style="font-size:9pt" colspan="12">CHI PHÍ TRỰC TIẾP</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="3">CHÊNH LỆCH</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Nơi đi</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Nơi đến</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Mác tàu</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Cự ly</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Số ĐT</th>
+                                <th class="text-center " style="font-size:9pt" colspan="2">SL TX</th>
+                                <th class="text-center " style="font-size:9pt" colspan="2">SL Cont</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Tấn Xếp</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Tự trọng xe</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">T.Km HH</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">T.Km TT</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">ĐT Km</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">DT (ga-ga)</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">DT bán hàng</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">DT điều chỉnh</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Tổng DT</th>
+                                <th class="text-center " style="font-size:9pt" colspan="7">HỢP ĐỒNG ĐHGT VT ĐS</th>
+                                <th class="text-center " style="font-size:9pt"
+                                rowspan="2">Cước VC</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Đầu Xếp</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Đầu dỡ</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">C.phí H.quan</th>
+                                <th class="text-center " style="font-size:9pt" rowspan="2">Tổng chi</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center " style="font-size:9pt">N</th>
+                                <th class="text-center " style="font-size:9pt">R</th>
+                                <th class="text-center " style="font-size:9pt">N</th>
+                                <th class="text-center " style="font-size:9pt">R</th>
+                                <th class="text-center " style="font-size:9pt">ĐH</th>
+                                <th class="text-center " style="font-size:9pt">SK</th>
+                                <th class="text-center " style="font-size:9pt">Dồn tàu</th>
+                                <th class="text-center " style="font-size:9pt">KCKT</th>
+                                <th class="text-center " style="font-size:9pt">Vạn tấn KM</th>
+                                <th class="text-center " style="font-size:9pt">Dịch vụ HH</th>
+                                <th class="text-center " style="font-size:9pt">Khác</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center" style="font-size:9pt">(1)</th>
+                                <th class="text-center" style="font-size:9pt">(2)</th>
+                                <th class="text-center" style="font-size:9pt">(3)</th>
+                                <th class="text-center" style="font-size:9pt">(4)</th>
+                                <th class="text-center" style="font-size:9pt">(5)</th>
+                                <th class="text-center" style="font-size:9pt">(6)</th>
+                                <th class="text-center" style="font-size:9pt">(7)</th>
+                                <th class="text-center" style="font-size:9pt">(8)</th>
+                                <th class="text-center" style="font-size:9pt">(9)</th>
+                                <th class="text-center" style="font-size:9pt">(10)</th>
+                                <th class="text-center" style="font-size:9pt">(11)</th>
+                                <th class="text-center" style="font-size:9pt">(12)</th>
+                                <th class="text-center" style="font-size:9pt">(13)</th>
+                                <th class="text-center" style="font-size:9pt">(14)</th>
+                                <th class="text-center" style="font-size:9pt">(15)</th>
+                                <th class="text-center" style="font-size:9pt">(16)</th>
+                                <th class="text-center" style="font-size:9pt">(17)</th>
+                                <th class="text-center" style="font-size:9pt">(18)</th>
+                                <th class="text-center" style="font-size:9pt">(19)</th>
+                                <th class="text-center" style="font-size:9pt">(20)</th>
+                                <th class="text-center" style="font-size:9pt">(21)</th>
+                                <th class="text-center" style="font-size:9pt">(22)</th>
+                                <th class="text-center" style="font-size:9pt">(23)</th>
+                                <th class="text-center" style="font-size:9pt">(24)</th>
+                                <th class="text-center" style="font-size:9pt">(25)</th>
+                                <th class="text-center" style="font-size:9pt">(26)</th>
+                                <th class="text-center" style="font-size:9pt">(27)</th>
+                                <th class="text-center" style="font-size:9pt">(28)</th>
+                                <th class="text-center" style="font-size:9pt">(29)</th>
+                                <th class="text-center" style="font-size:9pt">(30)</th>
+                                <th class="text-center" style="font-size:9pt">(31)</th>
+                                <th class="text-center" style="font-size:9pt">(32)</th>
+                                <th class="text-center" style="font-size:9pt">(33)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">I</td>
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">Đường sắt</td>
+                                <td class="text-center" style="font-size:9pt;font-weight:bold">Nơi đi</td>
+                                <td class="text-center" style="font-size:9pt;font-weight:bold">Nơi đến</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat-start="item in report.Data1">
+                                <td class="text-center" style="font-size:9pt" rowspan="{{item.Items.length+1}}">{{$index + 1}}</td>
+                                <td class="text-center" style="font-size:9pt;font-weight:bold"
+                                rowspan="{{item.Items.length}}">{{item.TenTuyen}}</td>
+                            </tr>
+                            <tr ng-repeat-end ng-repeat="d in item.Items">
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaLT}}">{{d.MaGaLT}}</td>
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaGT}}">{{d.MaGaGT}}</td>
+                                <td class="text-center" style="font-size:9pt">
+                                    <span class="hovertext" ng-click="OnClickMacTau(d)">{{d.MacTau}}</span>
+                                </td>
+                                <td class="text-center" style="font-size:9pt">{{d.CuLy|number:2}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SoDoanTau|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Rong|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Rong|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TuTrongXe|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMHH|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanTauKM|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuGaGa|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuBookingTau|number}}</td>
+                                <td></td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongDoanhThu|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_SK|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_TienDon|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_KCKT|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_VanTanKM|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DichVuHH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_Khac|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHVT_CuocVC|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauXep|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauDo|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.ChiPhiHaiQuan|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongChi|number}}</td>
+                                <td class="text-right" style="font-size:9pt;color:red">{{d.ChenhLech|number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">II</td>
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">Đường bộ</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat-start="item in report.Data2" ng-init="d=item.Items[0]">
+                                <td class="text-center" style="font-size:9pt" rowspan="{{item.Items.length}}"></td>
+                                <td class="text-center" style="font-size:9pt;font-weight:bold" rowspan="{{item.Items.length}}">{{item.TenTuyen}}</td>
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaLT}}">{{d.MaGaLT}}</td>
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaGT}}">{{d.MaGaGT}}</td>
+                                <td class="text-center" style="font-size:9pt">
+                                    <span class="hovertext" ng-click="OnClickMacTau(d)">{{d.MacTau}}</span>
+                                </td>
+                                <td class="text-center" style="font-size:9pt">{{d.CuLy|number:2}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SoDoanTau|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Rong|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Rong|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TuTrongXe|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMHH|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanTauKM|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuGaGa|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuBookingTau|number}}</td>
+                                <td></td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongDoanhThu|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_SK|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_TienDon|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_KCKT|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_VanTanKM|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DichVuHH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_Khac|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHVT_CuocVC|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauXep|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauDo|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.ChiPhiHaiQuan|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongChi|number}}</td>
+                                <td class="text-right" style="font-size:9pt;color:red">{{d.ChenhLech|number}}</td>
+                            </tr>
+                            <tr ng-repeat-end ng-repeat="d in item.Items.slice(1)">
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaLT}}">{{d.MaGaLT}}</td>
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaGT}}">{{d.MaGaGT}}</td>
+                                <td class="text-center" style="font-size:9pt">
+                                    <span class="hovertext" ng-click="OnClickMacTau(d)">{{d.MacTau}}</span>
+                                </td>
+                                <td class="text-center" style="font-size:9pt">{{d.CuLy|number:2}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SoDoanTau|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Rong|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Rong|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TuTrongXe|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMHH|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanTauKM|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuGaGa|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuBookingTau|number}}</td>
+                                <td></td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongDoanhThu|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_SK|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_TienDon|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_KCKT|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_VanTanKM|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DichVuHH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_Khac|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHVT_CuocVC|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauXep|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauDo|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.ChiPhiHaiQuan|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongChi|number}}</td>
+                                <td class="text-right" style="font-size:9pt;color:red">{{d.ChenhLech|number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">III</td>
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">Đường biển</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat-start="item in report.Data3">
+                                <td class="text-center" style="font-size:9pt" rowspan="{{item.Items.length+1}}"></td>
+                                <td class="text-center" style="font-size:9pt;font-weight:bold" rowspan="{{item.Items.length+1}}">{{item.TenTuyen}}</td>
+                            </tr>
+                            <tr ng-repeat-end ng-repeat="d in item.Items">
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaLT}}">{{d.MaGaLT}}</td>
+                                <td class="text-center" style="font-size:9pt" title="{{d.TenGaGT}}">{{d.MaGaGT}}</td>
+                                <td class="text-center" style="font-size:9pt">
+                                    <span class="hovertext" ng-click="OnClickMacTau(d)">{{d.MacTau}}</span>
+                                </td>
+                                <td class="text-center" style="font-size:9pt">{{d.CuLy|number:2}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SoDoanTau|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLToa_Rong|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Nang|number}}</td>
+                                <td class="text-center" style="font-size:9pt">{{d.SLCONT_Rong|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TuTrongXe|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMHH|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TanKMTT|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanTauKM|number:2}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuGaGa|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DoanhThuBookingTau|number}}</td>
+                                <td></td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongDoanhThu|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_SK|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_TienDon|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_KCKT|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_VanTanKM|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_DichVuHH|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHGT_Khac|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.DHVT_CuocVC|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauXep|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TienDauDo|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.ChiPhiHaiQuan|number}}</td>
+                                <td class="text-right" style="font-size:9pt">{{d.TongChi|number}}</td>
+                                <td class="text-right" style="font-size:9pt;color:red">{{d.ChenhLech|number}}</td>
+                            </tr>
+                            <tr style="font-weight:bold">
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">IV</td>
+                                <td class="text-center" style="font-size:10pt;font-weight:bold">Tổng cộng</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-center">{{report.Tong.SoDoanTau|number}}</td>
+                                <td class="text-center">{{report.Tong.SLToa_Nang|number}}</td>
+                                <td class="text-center">{{report.Tong.SLToa_Rong|number}}</td>
+                                <td class="text-center">{{report.Tong.SLCONT_Nang|number}}</td>
+                                <td class="text-center">{{report.Tong.SLCONT_Rong|number}}</td>
+                                <td class="text-right">{{report.Tong.TanTT|number:2}}</td>
+                                <td class="text-right">{{report.Tong.TuTrongXe|number:2}}</td>
+                                <td class="text-right">{{report.Tong.TanKMHH|number:2}}</td>
+                                <td class="text-right">{{report.Tong.TanKMTT|number:2}}</td>
+                                <td class="text-right">{{report.Tong.DoanTauKM|number:2}}</td>
+                                <td class="text-right">{{report.Tong.DoanhThuGaGa|number}}</td>
+                                <td class="text-right">{{report.Tong.DoanhThuBookingTau|number}}</td>
+                                <td></td>
+                                <td class="text-right">{{report.Tong.TongDoanhThu|number}}</td>
+                                <td class="text-right">{{report.Tong.DHGT_DH|number}}</td>
+                                <td class="text-right">{{report.Tong.DHGT_SK|number}}</td>
+                                <td class="text-right">{{report.Tong.DHGT_TienDon|number}}</td>
+                                <td class="text-right">{{report.Tong.DHGT_KCKT|number}}</td>
+                                <td class="text-right">{{report.Tong.DHGT_VanTanKM|number}}</td>
+                                <td class="text-right">{{report.Tong.DHGT_DichVuHH|number}}</td>
+                                <td class="text-right">{{report.Tong.DHGT_Khac|number}}</td>
+                                <td class="text-right">{{report.Tong.DHVT_CuocVC|number}}</td>
+                                <td class="text-right">{{report.Tong.TienDauXep|number}}</td>
+                                <td class="text-right">{{report.Tong.TienDauDo|number}}</td>
+                                <td class="text-right">{{report.Tong.ChiPhiHaiQuan|number}}</td>
+                                <td class="text-right">{{report.Tong.TongChi|number}}</td>
+                                <td class="text-right" style="color:red">{{report.Tong.ChenhLech|number}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-info">
+                <div>
+                    <span class="fa fa-info-circle">&nbsp;</span>Ghi chú</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy
+                    HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

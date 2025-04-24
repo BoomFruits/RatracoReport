@@ -1,0 +1,27 @@
+﻿<div ng-controller="WorkflowControlDonViCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select class="form-control" name="ControlDonViLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien" required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlDonViLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">
+                    {{reference.LableValue?reference.LableValue:'Đơn vị:'}}
+                    <span class="text-danger">(*)</span>
+                </span>
+                <select class="form-control" name="ControlDonViValue{{$surfix}}" ng-model="dieuKien.DKienStringValue" ng-required="dieuKien.LoaiDieuKien>0">
+                    <option value="">--Chọn đơn vị--</option>
+                    <option ng-repeat="ite in listDonVi" value="{{ite.MaDV}}">{{ite.TenDV}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlDonViValue{{$surfix}}">Vui lòng chọn đơn vị</error-show>
+        </div>
+    </div>
+</div>

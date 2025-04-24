@@ -1,0 +1,250 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">DT01-LV: BÁO CÁO BÁN VÉ LIÊN VẬN QUỐC TẾ</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày bán từ
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="NgayBD" ng-model="input.NgayBD" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgayBD" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayBD=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="NgayBD">Ngày bán từ không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày bán đến
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="NgayKT" ng-model="input.NgayKT" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgayKT" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayKT=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="NgayKT">Ngày bán đến không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Mác tàu</span>
+                            <div isteven-multi-select translation="localLang" input-model="inputMacTaus"
+                            output-model="input.outputMacTaus" button-label="name" item-label="name"
+                            tick-property="ticked" max-labels="3" search-property="name"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 139px;" class="input-group-addon">Ngày đi từ</span>
+                            <input type="text" name="NgayDiTu" ng-model="input.NgayDiTu"
+                            placeholder="Tất cả" is-open="openedNgayDiTu" uib-datepicker-popup="dd/MM/yyyy"
+                            datepicker-options="dateOptions" show-button-bar="false" show-weeks="false"
+                            class="form-control" />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayDiTu=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày đi đến</span>
+                            <input type="text" name="NgayDiDen" ng-model="input.NgayDiDen"
+                            placeholder="Tất cả" is-open="openedNgayDiDen" uib-datepicker-popup="dd/MM/yyyy"
+                            datepicker-options="dateOptions" show-button-bar="false" show-weeks="false"
+                            class="form-control" />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayDiDen=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Đơn vị</span>
+                            <input ng-model="input.MaDV" is-open="openedDonVi" tree-don-vi="C12"
+                            tree-data-level="5" tree-expand-level="1" is-owner="true" ng-click="openedDonVi=true"
+                            readonly="readonly" placeholder="Tất cả các đơn vị" class="form-control"
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedDonVi=true" class="btn btn-default">
+                                    <em class="fa fa-folder-open"></em>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo</button>
+                    <button type="submit" ng-disabled="loading"
+                    class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div>
+            <span class="fa fa-info-circle">&nbsp;</span>Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm
+            [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu
+            <strong class="text-danger">(*)</strong>&nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO BÁN VÉ LIÊN VẬN QUỐC TẾ</h4>
+                        <div>Ngày bán từ {{report.Input.NgayBanTu|date:'dd/MM/yyyy'}} đến {{report.Input.NgayBanDen|date:'dd/MM/yyyy'}}</div>
+                        <div>{{[report.Input.NgayDiTu,report.Input.NgayDiDen]|joinDate:'Ngày đi từ
+                            ngày':'Ngày đi trước ngày'}}</div>
+                        <div>Đơn vị: {{report.Input.TenDV|empty:'Tất cả'}}, Mác tàu: {{report.Input.MT|join:','|empty:'Tất
+                            cả'}}</div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: DT01-LV</div>
+                        <div>Đơn vị tính: x1.000 đồng</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel panel-primary report-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mác tàu</th>
+                                <th>Ngày bán</th>
+                                <th>Ngày đi</th>
+                                <th>Loại chỗ</th>
+                                <th>Trạng thái</th>
+                                <th>Giá vé</th>
+                                <th>Giảm giá PT</th>
+                                <th>Giảm giá TG</th>
+                                <th>Tiền thu</th>
+                                <th>Giá vé khách</th>
+                                <th>Giá vé nằm</th>
+                                <th>Tỷ giá</th>
+                                <th>TLGG khách</th>
+                                <th>TLGG nằm</th>
+                                <th>Tiền vé khách</th>
+                                <th>Tiền vé nằm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in report.Data">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td class="text-center">{{item.MacTau}}</td>
+                                <td class="text-center">
+                                    <div>{{item.NgayBan|date:'dd/MM/yyyy'}}</div>
+                                    <div>{{item.NgayBan|date:'HH:mm'}}</div>
+                                </td>
+                                <td class="text-center">{{item.NgayDi|date:'dd/MM/yyyy'}}</td>
+                                <td class="text-center">{{item.LoaiCho}}</td>
+                                <td class="text-center">{{item.Status}}</td>
+                                <td class="text-right">{{item.GiaVe|number:0}}</td>
+                                <td class="text-right">{{item.GiamGiaPT|number:0}}</td>
+                                <td class="text-right">{{item.GiamGiaTG|number:0}}</td>
+                                <td class="text-right">{{item.TienThu|number:0}}</td>
+                                <td class="text-right">{{item.GiaVeKhach|number:2}}</td>
+                                <td class="text-right">{{item.GiaVeNam|number:2}}</td>
+                                <td class="text-right">{{item.TyGia|number:2}}</td>
+                                <td class="text-center">{{item.TyLeGGKhach|number:0}}</td>
+                                <td class="text-center">{{item.TyLeGGNam|number:0}}</td>
+                                <td class="text-right">{{item.TienVeKhach|number:0}}</td>
+                                <td class="text-right">{{item.TienVeNam|number:0}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="6">
+                                    <strong>Tổng</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.GiaVe|number:0}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.GiamGiaPT|number:0}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.GiamGiaTG|number:0}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TienThu|number:0}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.GiaVeKhach|number:2}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.GiaVeNam|number:2}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TyGia|number:2}}</strong>
+                                </td>
+                                <td class="text-center">
+                                    <strong>{{report.Tong.TyLeGGKhach|number:0}}</strong>
+                                </td>
+                                <td class="text-center">
+                                    <strong>{{report.Tong.TyLeGGNam|number:0}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TienVeKhach|number:0}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TienVeNam|number:0}}</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-info">
+                <div>
+                    <span class="fa fa-info-circle">&nbsp;</span>Ghi chú</div>
+                <div>- Số liệu báo cáo đã bao gồm 1.000 đồng bảo hiểm và tiền thuế giá trị
+                    gia tăng</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy
+                    HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

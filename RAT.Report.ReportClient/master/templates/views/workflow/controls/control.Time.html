@@ -1,0 +1,25 @@
+﻿<div ng-controller="WorkflowControlTimeCtrl">
+    <div class="row">
+        <div class="col-md-6" style="padding-top: 16px;">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select class="form-control" name="ControlTimeLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien"  required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlTimeLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6" style="margin-top: -18px;">
+            <div class="row row-table">
+                <div class="col-md-4" style="padding-left: 0px; padding-right: 0px; white-space: nowrap;">
+                    <span>
+                        Thời gian
+                        <span class="text-danger">(*)</span>
+                    </span>
+                </div>
+                <div uib-timepicker="" name="ControlTimeValue{{$surfix}}" ng-model="timeValue" ng-change="setTimeValue(timeValue)" hour-step="1" minute-step="1" show-meridian="false" ng-required="dieuKien.LoaiDieuKien>0" class="col-md-8"></div>
+            </div>
+        </div>
+    </div>
+</div>

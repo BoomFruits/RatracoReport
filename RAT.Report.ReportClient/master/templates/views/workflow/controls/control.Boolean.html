@@ -1,0 +1,20 @@
+﻿<div ng-controller="WorkflowControlBooleanCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="radio c-radio">
+                <label>
+                    <input type="radio" name="ControlBooleanValue{{$surfix}}" ng-model="dieuKien.DKienBoolValue" ng-value="true" />
+                    <span class="fa fa-check"></span>Có (đúng, đồng ý ...)
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="radio c-radio">
+                <label>
+                    <input type="radio" name="ControlBooleanValue{{$surfix}}" ng-model="dieuKien.DKienBoolValue" ng-value="false" />
+                    <span class="fa fa-check"></span>Không (sai, không đồng ý ...)
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+﻿<div ng-controller="WorkflowControlLoaiBangGiaCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select class="form-control" name="ControlLoaiBangGiaLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien" required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlLoaiBangGiaLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">
+                    {{reference.LableValue?reference.LableValue:'Loại BG:'}}
+                    <span class="text-danger">(*)</span>
+                </span>
+                <select class="form-control" name="ControlLoaiBangGiaValue{{$surfix}}" ng-model="dieuKien.DKienIntValue" ng-required="dieuKien.LoaiDieuKien>0" as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listLoaiBG" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlLoaiBangGiaValue{{$surfix}}">Vui lòng chọn loại bảng giá</error-show>
+        </div>
+    </div>
+</div>

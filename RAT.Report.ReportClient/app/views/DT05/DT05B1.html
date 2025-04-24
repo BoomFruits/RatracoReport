@@ -1,0 +1,196 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">DT05-B1: BÁO CÁO CHI TIẾT VÉ BÁN TRONG CA</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày bán từ
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="NgayBan" ng-model="input.NgayBan" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgayBan" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayBan=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="NgayBan">Ngày bán từ không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Đơn vị
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input name="MaDV" ng-model="input.MaDV" ng-change="changeMaDV(input.MaDV)" is-open="openedDonVi" tree-don-vi="" tree-data-level="5" tree-expand-level="1" is-owner="true" ng-click="openedDonVi=true" readonly="readonly" placeholder="Chọn đơn vị" required
+                            class="form-control" />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedDonVi=true" class="btn btn-default">
+                                    <em class="fa fa-folder-open"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="MaDV">Vui lòng chọn đơn vị bán vé bán vé</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Cửa vé</span>
+                            <select name="MaCV" ng-model="input.MaCV" ng-options="i.Value as i.Text for i in listCuaVe" class="form-control" required>
+                                <option value="">-- Chọn cửa vé --</option>
+                            </select>
+                        </div>
+                        <error-show type="required" name="MaCV">Vui lòng chọn cửa vé</error-show>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Nhân viên</span>
+                            <select name="MaNV" ng-model="input.MaNV" ng-options="i.Value as i.Text for i in listNhanVien" class="form-control" required>
+                                <option value="">-- Chọn nhân viên --</option>
+                            </select>
+                        </div>
+                        <error-show type="required" name="MaNV">Vui lòng chọn nhân viên</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ca bán vé</span>
+                            <select name="Ca" ng-model="input.Ca" ng-options="i.Value as i.Text for i in listCa" class="form-control" required>
+                                <option value="">-- Chọn các ca --</option>
+                            </select>
+                        </div>
+                        <error-show type="required" name="Ca">Vui lòng chọn ca</error-show>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo
+                    </button>
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div>
+            <span class="fa fa-info-circle">&nbsp;</span>Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu
+            <strong class="text-danger">(*)</strong>&nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO CHI TIẾT VÉ BÁN TRONG CA</h4>
+                        <div>Ngày bán: {{report.Input.NgayBan|date:'dd/MM/yyyy'}}, Cửa vé: {{report.Input.TenCV|empty:'Tất cả'}}</div>
+                        <div>Nhân viên: {{report.Input.TenNV|empty:'Tất cả'}}, Ca bán vé: {{report.Input.TenCa|empty:'Tất cả'}}</div>
+
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: DT05-B1</div>
+                        <div>Đơn vị tính: x1.000 đồng</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel panel-primary report-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover report-table-lg">
+                        <thead>
+                            <tr>
+                                <th class="text-center">STT</th>
+                                <th class="text-center">Ngày giờ xuất vé</th>
+                                <th class="text-center">Mã đặt chỗ</th>
+                                <th class="text-center">Mã vé</th>
+                                <th class="text-center">Mã kiểm soát</th>
+                                <th class="text-center">Họ tên</th>
+                                <th class="text-center">CMND</th>
+                                <th class="text-center">Mác Tàu</th>
+                                <th class="text-center">Ngày Đi</th>
+                                <th class="text-center">Toa</th>
+                                <th class="text-center">Chỗ Số</th>
+                                <th class="text-center">Loại Chỗ</th>
+                                <th class="text-center">Ga Đi</th>
+                                <th class="text-center">Ga Đến</th>
+                                <th class="text-center">Loại Vé</th>
+                                <th class="text-center">Giá Vé</th>
+                                <th class="text-center">Tiền Thu</th>
+                                <th class="text-center">Hình Thức TT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in report.Data">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td class="text-center">{{item.NgayBanDate|date:'dd/MM/yyyy HH:mm'}}</td>
+                                <td class="text-center">{{item.BookingCode}}</td>
+                                <td class="text-center">{{item.TicketID}}</td>
+                                <td class="text-left">{{item.Serial}}</td>
+                                <td class="text-left">{{item.TenKH}}</td>
+                                <td class="text-center">{{item.CMND}}</td>
+                                <td class="text-center">{{item.MacTau}}</td>
+                                <td class="text-center">{{item.NgayDiDate|date:'dd/MM/yyyy'}}</td>
+                                <td class="text-center">{{item.ToaSo}}</td>
+                                <td class="text-center">{{item.ChoSo}}</td>
+                                <td class="text-center">{{item.LoaiCho}}</td>
+                                <td class="text-center">{{item.MaGaDi}}</td>
+                                <td class="text-center">{{item.MaGaDen}}</td>
+                                <td class="text-center">{{item.LoaiVe}}</td>
+                                <td class="text-center">{{item.GiaVe|number}}</td>
+                                <td class="text-center">{{item.TienThu|number}}</td>
+                                <td class="text-center">
+                                    <span ng-show="item.PaymentMethod==1">TM</span>
+                                    <span ng-show="item.PaymentMethod!=1">CK</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" colspan="18">
+                                    <div>Tổng số vé bán:
+                                        <strong>{{report.Data.length|number}}</strong>&nbsp;vé</div>
+                                    <div>Tổng số tiền thu:
+                                        <strong>{{report.Tong.TienThu|number}}</strong>&nbsp;(x1000 VNĐ)</div>
+                                    <div ng-show="report.MaKiemSoatTu">Mã kiểm soát: Từ
+                                        <strong>{{report.MaKiemSoatTu}}</strong>&nbsp;đến
+                                        <strong>{{report.MaKiemSoatDen}}</strong>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-info">
+                <div>
+                    <span class="fa fa-info-circle">&nbsp;</span>Ghi chú</div>
+                <div>- Tiền vé trả lại cho khách là Tiền mặt nếu vé mua trực tiếp tại Ga hoặc trả tiền qua đại lý</div>
+                <div>- Tiền vé trả lại cho khách là chuyển khoản(CK) nếu mua vé trả tiền Online</div>
+                <div>- Số liệu báo cáo đã bao gồm 1.000 đồng bảo hiểm và tiền thuế giá trị gia tăng</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

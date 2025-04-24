@@ -1,0 +1,313 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">BKTTVTND01: BẢNG KÊ ĐỐI CHIẾU THU CƯỚC KHÁCH HÀNG VẬN TẢI NỘI ĐỊA</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group" show-errors>
+                <div class="input-group">
+                  <span class="input-group-addon">Ngày bắt đầu <span class="text-danger">(*)</span></span>
+                  <input type="text" name="Ngay_BatDau" ng-model="input.Ngay_BatDau" placeholder="dd/MM/yyyy" is-open="openedNgay_BatDau" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+                  <div class="input-group-btn">
+                    <button type="button" ng-click="openedNgay_BatDau=true" class="btn btn-default">
+                      <em class="fa fa-calendar"></em>
+                    </button>
+                  </div>
+                </div>
+                <error-show type="required" name="Ngay_BatDau">Ngày bắt đầu không được trống</error-show>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group" show-errors>
+                <div class="input-group">
+                  <span class="input-group-addon">Ngày kết thúc <span class="text-danger">(*)</span></span>
+                  <input type="text" name="Ngay_KetThuc" ng-model="input.Ngay_KetThuc" placeholder="dd/MM/yyyy" is-open="openedNgay_KetThuc" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+                  <div class="input-group-btn">
+                    <button type="button" ng-click="openedNgay_KetThuc=true" class="btn btn-default">
+                      <em class="fa fa-calendar"></em>
+                    </button>
+                  </div>
+                </div>
+                <error-show type="required" name="Ngay_KetThuc">Ngày kết thúc không được trống</error-show>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" show-errors>
+                <div class="input-group">
+                  <span class="input-group-addon">Khách hàng <span class="text-danger">(*)</span></span>
+                  <input type="text" class="form-control" ng-model="input.KhachHangItem" id="KhachHangItem" name="KhachHangItem"
+                         typeahead-min-length="0" autocomplete="off"
+                         uib-typeahead="n as n.CustomerName for n in listKhachHang | filter:{Keyword:$viewValue}| limitTo:8"
+                         placeholder="Gõ từ khóa khách hàng..." typeahead-editable="false" enter tabindex="1+"required />
+                </div>
+                <error-show type="required" name="KhachHangItem">Khách hàng không được trống</error-show>
+              </div>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group" show-errors>
+                <div class="input-group">
+                  <span class="input-group-addon">Mức thuế <span class="text-danger">(*)</span></span>
+                  <select type="text" name="MucThue" ng-model="input.MucThue" class="form-control" required="">
+                    <option value="">--Chọn--</option>
+                    <option value="0.1">10%</option>
+                    <option value="0.08">8%</option>
+                  </select>
+                </div>
+                <error-show type="required" name="MucThue">Mức thuế không được trống</error-show>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Zone đi</span>
+                  <input type="text" class="form-control" ng-model="input.ZoneDiItem" id="ZoneDiItem" name="ZoneDiItem"
+                         typeahead-min-length="0" autocomplete="off"
+                         uib-typeahead="n as n.TenZone for n in listKho | filter:{Keyword:$viewValue}| limitTo:8"
+                         placeholder="Gõ từ khóa khu vực..." typeahead-editable="false" enter tabindex="1+" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Zone đến</span>
+                  <input type="text" class="form-control" ng-model="input.ZoneDenItem" id="ZoneDenItem" name="ZoneDenItem"
+                         typeahead-min-length="0" autocomplete="off"
+                         uib-typeahead="n as n.TenZone for n in listKho | filter:{Keyword:$viewValue}| limitTo:8"
+                         placeholder="Gõ từ khóa khu vực..." typeahead-editable="false" enter tabindex="1+" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Mác tàu</span>
+                  <input type="text" class="form-control" ng-model="input.MacTau" id="MacTau" name="MacTau"
+                         enter tabindex="1+" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Toa xe</span>
+                  <input type="text" class="form-control" ng-model="input.SoHieuXe" id="SoHieuXe" name="SoHieuXe"
+                         enter tabindex="1+" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Ga xếp</span>
+                  <input type="text" class="form-control" ng-model="input.GaDiItem" id="GaDiItem" name="GaDiItem"
+                         typeahead-min-length="0" autocomplete="off"
+                         uib-typeahead="n as n.TenZone for n in listGa | filter:{Keyword:$viewValue}| limitTo:8"
+                         placeholder="Gõ từ khóa khu vực..." typeahead-editable="false" enter tabindex="1+" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Ga dỡ</span>
+                  <input type="text" class="form-control" ng-model="input.GaDenItem" id="GaDenItem" name="GaDenItem"
+                         typeahead-min-length="0" autocomplete="off"
+                         uib-typeahead="n as n.TenZone for n in listGa | filter:{Keyword:$viewValue}| limitTo:8"
+                         placeholder="Gõ từ khóa khu vực..." typeahead-editable="false" enter tabindex="1+" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Hàng hóa</span>
+                  <input type="text" class="form-control" ng-model="input.HangHoaItem" id="HangHoaItem" name="HangHoaItem"
+                         typeahead-min-length="0" autocomplete="off"
+                         uib-typeahead="n as n.TenHang for n in listHangHoa | filter:{Keyword:$viewValue}| limitTo:8"
+                         placeholder="Gõ từ khóa hàng hóa..." typeahead-editable="false" enter tabindex="1+" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">Đơn vị tính</span>
+                  <select class="form-control" ng-model="input.DVTItem" style="margin:0px" name="DVT"
+                          ng-options="d as d.TenDonViTinh for d in listDVT" tabindex="1+" enter>
+                    <option value="">-Tất cả-</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-bar-chart-o"></em>&nbsp; Báo cáo
+                    </button>
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+                    </button>
+               </div>
+           </div>
+       </form>
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div><span class="fa fa-info-circle">&nbsp;</span> Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu <strong class="text-danger">(*)</strong> &nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                      <!--  <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>-->
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BẢNG KÊ ĐỐI CHIẾU THU CƯỚC KHÁCH HÀNG VẬN TẢI NỘI ĐỊA</h4>
+                        <div>Ngày từ {{report.Input.Ngay_BatDau|date:'dd/MM/yyyy'}} đến {{report.Input.Ngay_KetThuc|date:'dd/MM/yyyy'}}</div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: BKTTVTND01</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel panel-primary report-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover report-table freeheadertable">
+                        <thead>
+                          <tr>
+                            <th class="text-center w3" style="font-size:9pt">STT</th>
+                            <th class="text-center w8" style="font-size:9pt">Ngày xếp theo kế hoạch</th>
+                            <th class="text-center w7" style="font-size:9pt">Số hiệu container</th>
+                            <th class="text-center w5" style="font-size:9pt">Số hiệu xe</th>
+                            <th class="text-center w5" style="font-size:9pt">Loại hình vận chuyển</th>
+                            <th class="text-center w8" style="font-size:9pt">Tên hàng</th>
+                            <th class="text-center w5" style="font-size:9pt">Khối lượng hàng(kg)</th>
+                            <th class="text-center w10" style="font-size:9pt">Kho xếp/Ga xếp</th>
+                            <th class="text-center w10" style="font-size:9pt">Kho dỡ/Ga dỡ</th>
+                            <th class="text-center w5" style="font-size:9pt">Đơn vị tính</th>
+                            <th class="text-center w6" style="font-size:9pt">Đơn giá</th>
+                            <th class="text-center w6" style="font-size:9pt">Thành tiền</th>
+                            <th class="text-center w6" style="font-size:9pt">Phụ phí lưu xe</th>
+                            <th class="text-center w6" style="font-size:9pt">Phụ phí cont lạnh</th>
+                            <th class="text-center w10" style="font-size:9pt">Tống tiền</th>
+                          </tr>                         
+                          <tr>
+                            <th class="text-center w3" style="font-size:9pt">(1)</th>
+                            <th class="text-center w8" style="font-size:9pt">(2)</th>
+                            <th class="text-center w7" style="font-size:9pt">(3)</th>
+                            <th class="text-center w5" style="font-size:9pt">(4)</th>
+                            <th class="text-center w5" style="font-size:9pt">(5)</th>
+                            <th class="text-center w8" style="font-size:9pt">(6)</th>
+                            <th class="text-center w5" style="font-size:9pt">(7)</th>
+                            <th class="text-center w10" style="font-size:9pt">(8)</th>
+                            <th class="text-center w10" style="font-size:9pt">(9)</th>
+                            <th class="text-center w5" style="font-size:9pt">(10)</th>
+                            <th class="text-center w6" style="font-size:9pt">(11)</th>
+                            <th class="text-center w6" style="font-size:9pt">(12)</th>
+                            <th class="text-center w6" style="font-size:9pt">(13)</th>
+                            <th class="text-center w6" style="font-size:9pt">(14)</th>
+                            <th class="text-center w10" style="font-size:9pt">(15)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="item in report.Data">
+                            <td class="text-center w3" style="font-weight:normal;font-size:9pt">{{$index + 1}}</td>
+                            <td class="text-center w8" style="font-size:9pt">
+                              {{item.NgayXepKH|date:'dd/MM/yyyy'}}
+                            </td>
+                            <td class="text-left w7" style="font-size:9pt">
+                              {{item.SoCont}}
+                            </td>
+                            <td class="text-left w5" style="font-size:9pt">
+                              <span ng-show="item.SoHieuXe">{{item.SoHieuXe}}({{item.PhanLoaiXe}}) </span>
+                            </td>
+                            <td class="text-left w5" style="font-size:9pt">
+                              {{item.MaLoaiHinhVC}}
+                            </td>
+                            <td class="text-left w8" style="font-size:9pt">
+                              {{item.TenHang}}
+                            </td>
+                            <td class="text-left w5" style="font-size:9pt">
+                              {{item.TrongLuong|number}}
+                            </td>
+                            <td class="text-left w10" style="font-size:9pt">
+                             <span ng-show="item.TenKhoDong">{{item.TenKhoDong}} /</span>  {{item.TenGaDong}}
+                            </td>
+                            <td class="text-left w10" style="font-size:9pt">
+                              <span ng-show="item.TenKhoTra">{{item.TenKhoTra}} /</span>  {{item.TenGaTra}}
+                            <td class="text-left w5" style="font-size:9pt">
+                              {{item.DonViTinh}}
+                            </td>
+                            <td class="text-right w6" style="font-size:9pt">
+                              {{item.DonGia|number}}
+                            </td>
+                              <td class="text-right w6" style="font-size:9pt">
+                              {{item.ThanhTien|number}}
+                            </td>
+                            <td class="text-right w6" style="font-size:9pt">
+                              {{item.PhuPhiLuuXe|number}}
+                            </td>
+                            <td class="text-right w6" style="font-size:9pt">
+                              {{item.PhuPhiContLanh|number}}
+                            </td>
+                           
+                            <td class="text-right w10" style="font-size:9pt">
+                              {{item.TongTien|number}}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="text-left w90" style="font-size:9pt;font-weight:bold" colspan="14">
+                              Tổng cộng:
+                            </td>
+                            <td class="text-right w10" style="font-size:9pt">
+                              {{report.Tong.TongTien|number}}
+                            </td>                            
+                          </tr>
+                          <tr>
+                            <td class="text-left w80" style="font-size:9pt;font-weight:bold" colspan="13">
+                              Thuế VAT:
+                            </td>
+                            <td class="text-left w10" style="font-size:9pt">
+                              <span ng-show="report.Input.MucThue==0.1">10%</span>
+                              <span ng-show="report.Input.MucThue==0.08">8%</span>
+                            </td>  
+                            <td class="text-right w10" style="font-size:9pt">
+                              {{(report.Tong.TongTien*report.Input.MucThue)|number:0}}
+                            </td>   
+                          </tr>
+                          <tr>
+                            <td class="text-left w90" style="font-size:9pt;font-weight:bold" colspan="14">
+                              Tổng cộng tiền sau thuế:
+                            </td>
+                            <td class="text-right w10" style="font-size:9pt">
+                              {{report.Tong.TongTien*(report.Input.MucThue+1)|number:0}}
+                            </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-info">
+                <div><span class="fa fa-info-circle">&nbsp;</span> Ghi chú</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

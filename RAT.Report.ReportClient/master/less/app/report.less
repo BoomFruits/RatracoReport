@@ -1,0 +1,125 @@
+@media print {
+  .content-wrapper {
+    border-top: none !important;
+  }
+  .well.report {
+    padding: 0px !important;
+    border: none !important;
+    border-radius: 0px !important;
+    margin-bottom: 0px !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none;
+  }
+  .panel.report-body {
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+  }
+  footer {
+      display: none;
+  }
+}
+@media print and (max-width: 40em) {
+  .table.report-head .report-head-org {
+    width: 30%;
+  }
+  .table.report-head .report-head-title {
+    width: 60%;
+  }
+  .table.report-head .report-head-info {
+    width: 10%;
+  }
+}
+
+.sidebar .nav-heading {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.sidebar > .nav > li > a > em,
+.sidebar > .nav > li > .nav-item > em {
+    width: 1.5em;
+}
+
+.sidebar > .nav > li > a, 
+.sidebar > .nav > li > .nav-item {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.sidebar-subnav > li > a,
+.sidebar-subnav > li > .nav-item {
+  padding-left: 16px;
+  padding-right: 6px;
+}
+
+.table.report-head {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.table.report-head > thead > tr > th,
+.table.report-head > tbody > tr > th,
+.table.report-head > tfoot > tr > th,
+.table.report-head > thead > tr > td,
+.table.report-head > tbody > tr > td,
+.table.report-head > tfoot > tr > td,
+.table.report-head > tr > th,
+.table.report-head > tr > td {
+  border: none;
+  vertical-align: text-top;
+}
+
+.table.report-head .report-head-org {
+  width: 20%;
+  text-align: left;
+  font-size: larger;
+  white-space: nowrap;
+}
+.table.report-head .report-head-title {
+  width: 60%;
+  text-align: center;
+}
+.table.report-head .report-head-title h3,
+.table.report-head .report-head-title h4,
+.table.report-head .report-head-title h5 {
+  white-space: nowrap;
+  margin: 0px;
+}
+.table.report-head .report-head-info {
+  width: 20%;
+  text-align: right;
+}
+
+.panel.report-body .table > thead > tr > th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table.report-table > thead > tr > th,
+.table.report-table > tbody > tr > td,
+.table.report-table > tfoot > tr > td {
+    padding: 4px;
+    font-size: 13px;
+}
+
+.table.report-table-lg > thead > tr > th,
+.table.report-table-lg > tbody > tr > td,
+.table.report-table-lg > tfoot > tr > td {
+    padding: 6px;
+    font-size: 14px;
+}
+
+.table.report-table-md > thead > tr > th,
+.table.report-table-md > tbody > tr > td,
+.table.report-table-md > tfoot > tr > td {
+    padding: 4px;
+    font-size: 14px;
+}
+
+.table.report-table-sm > thead > tr > th,
+.table.report-table-sm > tbody > tr > td,
+.table.report-table-sm > tfoot > tr > td {
+    padding: 2px;
+    font-size: 12px;
+}

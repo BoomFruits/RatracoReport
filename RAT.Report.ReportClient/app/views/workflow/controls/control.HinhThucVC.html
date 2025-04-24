@@ -1,0 +1,30 @@
+<div ng-controller="WorkflowControlHinhThucVCCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select
+                class="form-control" name="ControlHinhThucVCLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien"
+                required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                    </select>
+            </div>
+            <error-show type="required" name="ControlHinhThucVCLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableValue?reference.LableValue:'Hình thức VC:'}}
+                    <span class="text-danger">(*)</span>
+                </span>
+                <select class="form-control" name="ControlHinhThucVCValue{{$surfix}}"
+                ng-model="dieuKien.DKienIntValue" ng-required="dieuKien.LoaiDieuKien>0"
+                as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listHinhThucVC" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlHinhThucVCValue{{$surfix}}">Vui lòng chọn hình thức vận chuyển</error-show>
+        </div>
+    </div>
+</div>

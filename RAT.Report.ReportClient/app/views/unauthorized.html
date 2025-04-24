@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <button type="button" ng-click="close()" aria-hidden="true" class="close">×</button>
+    <h4 ng-show="Title" class="modal-title">{{Title}}</h4>
+    <h4 ng-show="!Title" class="modal-title">Thông báo chưa đăng nhập</h4>
+</div>
+<div class="modal-body">
+    <div role="alert" class="alert alert-danger">
+        <strong ng-show="Message&amp;&amp;Message=='MustTwoFactor'">Chức năng này yêu cầu đăng nhập 2 lớp</strong>
+        <strong ng-show="Message&amp;&amp;Message!='MustTwoFactor'">{{Message}}</strong>
+        <strong ng-show="!Message">Phiên đăng nhập của bạn đã quá hạn</strong>
+    </div>
+    <div>
+        <p ng-show="MessageDetail">{{MessageDetail}}</p>
+        <p ng-show="!MessageDetail">Bạn cần đăng nhập lại để truy cập trang này.</p>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" ng-show="Message!='MustTwoFactor'" ng-click="closeAndGotoLogin()"
+    ng-disabled="isDisabledBtnLogin" class="btn btn-success">Đăng nhập</button>
+    <button type="button" ng-show="Message=='MustTwoFactor'"
+    ng-click="closeAndGotoLogin2f()" ng-disabled="isDisabledBtnLogin" class="btn btn-success">Đăng nhập lớp 2</button>
+    <button type="button" ng-click="close()" class="btn btn-default">Đóng</button>
+</div>

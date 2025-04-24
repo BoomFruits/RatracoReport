@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-6">
+    <h4 style="margin:5px">
+   {{Title}}
+      <!--small A showcase of different components inside tables-->
+    </h4>
+  </div>
+  
+</div>
+<!-- START panel-->
+<div class="panel panel-default" style="padding:5px">
+  <div class="panel-body">    
+    <!-- START table-responsive-->
+    <div class="table-responsive">
+      <table id="tblBCDH02Detail" class="table table-bordered table-hover freeheadertable">
+        <thead>
+          <tr>
+            <th class="text-center w5" style="font-size:9pt">STT</th>
+            <th class="text-center w10" style="font-size:9pt">Số booking</th>
+            <th class="text-center w15" style="font-size:9pt">Khách hàng/Hàng hóa</th>
+            <th class="text-center w15" style="font-size:9pt">Ga đi/Ga đến</th>
+            <th class="text-center w10"style="font-size:9pt"><span ng-show="BCDH02Detail.Input.Loai===1">Thời gian xếp xong</span><span ng-show="BCDH02Detail.Input.Loai===2">Thời gian về ga</span></th>
+            <th class="text-center w10"style="font-size:9pt"><span ng-show="BCDH02Detail.Input.Loai===1">Thời gian đi</span><span ng-show="BCDH02Detail.Input.Loai===2">Thời gian trả</span></th>
+            <th class="text-center w10" style="font-size:9pt">Thời gian đọng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in BCDH02Detail.DataDetail">
+            <td class="text-center w5" style="font-size:9pt">
+              {{$index + 1}}
+            </td>
+            <td class="text-center w10" style="font-size:9pt">
+              <div>{{item.SoBooking}}</div>
+            </td>
+            <td class="text-center w15" style="font-size:9pt">
+              <div style="border-bottom:ridge">{{item.KhachHang_Ten}}</div>
+              <div>{{item.TenHang}}</div>
+            </td>
+            <td class="text-center w15" style="font-size:9pt">
+              <div style="border-bottom:ridge">{{item.TenGaDong}}</div>
+              <div>{{item.TenGaTra}}</div>
+            </td>
+            <td class="text-center w10" style="font-size:9pt">
+              <span ng-show="BCDH02Detail.Input.Loai===1">{{item.ThoiGianXepXong|date:'dd/MM/yyyy HH:mm'}}</span>
+              <span ng-show="BCDH02Detail.Input.Loai===2">{{item.ThoiGianVeGa|date:'dd/MM/yyyy HH:mm'}}</span>
+            </td>
+            <td class="text-center w10" style="font-size:9pt">
+              <span ng-show="BCDH02Detail.Input.Loai===1">{{item.ThoiGianDi|date:'dd/MM/yyyy HH:mm'}}</span>
+              <span ng-show="BCDH02Detail.Input.Loai===2">{{item.ThoiGianTra|date:'dd/MM/yyyy HH:mm'}}</span>
+            </td>
+            <td class="text-center w10" style="font-size:9pt">
+             {{item.ThoiGianDong|number}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- END table-responsive-->
+  </div>
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <button class="btn btn-default" ng-click="Dong()" ng-enter="Dong()" tabindex="1+" enter><span class="fa fa-sign-out"></span>&nbsp;Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>

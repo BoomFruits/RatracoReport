@@ -1,0 +1,58 @@
+<div style="margin-right: 20px; margin-bottom: 20px;">
+    <div class="row">
+        <div class="col-md-10">
+            <h2>Danh sách phân quyền của tài liệu {{ProcessName}}</h2>
+        </div>
+    </div>
+</div>
+<div class="panel panel-primary panel-body">
+    <div style="text-align: right; padding: 10px;">
+        <button type="button" class="btn btn-warning1" ng-click="reference()">Cấu hình điều kiện ủy quyền</button>
+        <button type="button" class="btn btn-primary"
+        style="font-size: 15px;" ng-click="insertPopup()">Thêm mới</button>
+    </div>
+    <div class="divPrintReport" style="font-family:'Times New Roman'">
+        <div class="row col-md-12 " style="margin: 0px;">
+            <table class="table table-bordered" style="margin-bottom: 10px;">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">STT</th>
+                        <th style="text-align: center;">Cán bộ xử lý</th>
+                        <th style="text-align: center;">Đơn vị</th>
+                        <th style="text-align: center;">Chức vụ</th>
+                        <th style="text-align: center;">Email</th>
+                        <th style="text-align: center;">Số điện thoại</th>
+                        <th style="text-align: center;">Áp dụng từ</th>
+                        <th style="text-align: center;">Áp dụng đến</th>
+                        <th style="text-align: center;">Người tạo</th>
+                        <th style="text-align: center;">Thời gian tạo</th>
+                        <th style="text-align: center;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="n in data">
+                        <td style="text-align: center;">{{$index +1}}</td>
+                        <td>{{n.FullName}}</td>
+                        <td>{{n.TenDV}}</td>
+                        <td>{{n.ChucVu}}</td>
+                        <td>{{n.Email}}</td>
+                        <td>{{n.PhoneNumber}}</td>
+                        <td style="text-align: center;">{{n.ApDungTu |date:'dd/MM/yyyy'}}</td>
+                        <td style="text-align: center;">{{n.ApDungDen |date:'dd/MM/yyyy'}}</td>
+                        <td>{{n.CreatedBy}}</td>
+                        <td style="text-align: center;">{{n.CreatedTime |date:'dd/MM/yyy'}}</td>
+                        <td style="text-align: right;">
+                            <button type="button" class="btn btn-warning" ng-click="uyquyen(n.ID)">Ủy Quyền</button>
+                            <button type="button" class="btn btn-info" ng-click="editPopup(n)">Sửa</button>
+                            <button type="button" class="btn btn-danger" ng-click="deletePhanQuyen(n.ID)">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div style="text-align: right; margin-right: 20px; margin-bottom: 20px;">
+    <button type="button" class="btn btn-success" style="font-size: 15px;"
+    ng-click="backToProcess()">Quay lại</button>
+</div>

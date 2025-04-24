@@ -1,0 +1,358 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">BCHH03: BÁO CÁO TỔNG HỢP SẢN LƯỢNG XẾP DỠ TTVT</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày bắt đầu
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="Ngay_BatDau" ng-model="input.Ngay_BatDau" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgay_BatDau" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgay_BatDau=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="Ngay_BatDau">Ngày bắt đầu không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 130px;" class="input-group-addon">Ngày kết thúc
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="Ngay_KetThuc" ng-model="input.Ngay_KetThuc" placeholder="Chọn/Nhập dd/MM/yyyy"
+                            is-open="openedNgay_KetThuc" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions"
+                            show-button-bar="false" show-weeks="false" class="form-control" required=""
+                            />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgay_KetThuc=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="Ngay_KetThuc">Ngày kết thúc không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span class="input-group-addon">Đơn vị
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <select class="form-control" ng-model="input.DonVi" style="margin:0px"
+                            name="DonVi" ng-options="d as d.TenDVText for d in listDonVi" tabindex="1+"
+                            enter required></select>
+                        </div>
+                        <error-show type="required" name="DonVi">Đơn vị không được trống</error-show>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo</button>
+                    <button type="submit" ng-disabled="loading"
+                    class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div>
+            <span class="fa fa-info-circle">&nbsp;</span>Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm
+            [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu
+            <strong class="text-danger">(*)</strong>&nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data1.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data1.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <!-- <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>-->
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO TỔNG HỢP SẢN LƯỢNG XẾP DỠ TTVT</h4>
+                        <div>Ngày từ {{report.Input.Ngay_BatDau|date:'dd/MM/yyyy'}} đến {{report.Input.Ngay_KetThuc|date:'dd/MM/yyyy'}}</div>
+                        <div>Đơn vị:{{report.Input.TenDV}}</div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: BCHH03</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="width:99%;height:600px;overflow: hidden;">
+                        <div style="width: 100%; overflow-y:scroll;overflow-x:hidden;">
+                            <table class="table table-bordered table-hover report-table" style="table-layout:fixed;margin-bottom:0px;padding-bottom:0px">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center w10" style="font-size:9pt">Tên ga</th>
+                                        <th class="text-center w20" style="font-size:9pt">Các chỉ tiêu</th>
+                                        <th class="text-center w10" style="font-size:9pt">Đơn vị tính</th>
+                                        <th class="text-center w10" style="font-size:9pt">KH {{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T1.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T2.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T3.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T4.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T5.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T6.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T7.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T8.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T9.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T10.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T11.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                        <th class="text-center w10"
+                                        style="font-size:9pt">TH
+                                            <br />T12.{{report.Input.Ngay_KetThuc|date:'yyyy'}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center w10" style="font-size:9pt">(1)</th>
+                                        <th class="text-center w20" style="font-size:9pt">(2)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(3)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(4)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(5)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(6)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(7)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(8)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(9)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(10)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(11)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(12)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(13)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(14)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(15)</th>
+                                        <th class="text-center w10" style="font-size:9pt">(16)</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div style="width:100%;height:100%;overflow:hidden;">
+                            <div style="height:90%; margin-top: -30px; overflow-y:scroll;overflow-x:hidden;">
+                                <table class="table table-bordered  table-hover table-report" style="table-layout:fixed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w20"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                            <th class="text-center w10"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" style="font-weight:bold">I</td>
+                                            <td class="text-center" style="font-weight:bold">SẢN LƯỢNG</td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" style="font-weight:bold">1</td>
+                                            <td class="text-center" style="font-weight:bold">Sản lượng hàng xếp</td>
+                                            <td class="text-center" style="font-weight:bold">Toa</td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                        </tr>
+                                        <tr ng-repeat-start="item in report.Data1">
+                                            <td class="text-center" style="font-size:9pt" rowspan="{{item.Items.length+1}}">{{item.TenGa}}</td>
+                                        </tr>
+                                        <tr ng-repeat-end ng-repeat="d in item.Items">
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span ng-show="d.PhanLoaiXe">Toa xe:{{d.PhanLoaiXe}}</span>
+                                            </td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span>{{d.SanLuongKH|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,1,d.ThucHienT1)">{{d.ThucHienT1|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,2,d.ThucHienT2)">{{d.ThucHienT2|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,3,d.ThucHienT3)">{{d.ThucHienT3|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,4,d.ThucHienT4)">{{d.ThucHienT4|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,5,d.ThucHienT5)">{{d.ThucHienT5|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,6,d.ThucHienT6)">{{d.ThucHienT6|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,7,d.ThucHienT7)">{{d.ThucHienT7|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,8,d.ThucHienT8)">{{d.ThucHienT8|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,9,d.ThucHienT9)">{{d.ThucHienT9|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,10,d.ThucHienT10)">{{d.ThucHienT10|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,11,d.ThucHienT11)">{{d.ThucHienT11|number}}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="hovertext" ng-click="ShowDetail(d,12,d.ThucHienT12)">{{d.ThucHienT12|number}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" style="font-weight:bold">2</td>
+                                            <td class="text-center" style="font-weight:bold">Sản lượng hàng dỡ</td>
+                                            <td class="text-center" style="font-weight:bold">Toa</td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                        </tr>
+                                        <tr ng-repeat-start="item2 in report.Data2">
+                                            <td class="text-center" style="font-size:9pt" rowspan="{{item2.Items.length+1}}">{{item2.TenGa}}</td>
+                                        </tr>
+                                        <tr ng-repeat-end ng-repeat="d in item2.Items">
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span ng-show="d.PhanLoaiXe">Toa xe:{{d.PhanLoaiXe}}</span>
+                                            </td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span>{{d.SanLuongKH|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,1,d.ThucHienT1)">{{d.ThucHienT1|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,2,d.ThucHienT2)">{{d.ThucHienT2|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,3,d.ThucHienT3)">{{d.ThucHienT3|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,4,d.ThucHienT4)">{{d.ThucHienT4|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,5,d.ThucHienT5)">{{d.ThucHienT5|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,6,d.ThucHienT6)">{{d.ThucHienT6|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,7,d.ThucHienT7)">{{d.ThucHienT7|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,8,d.ThucHienT8)">{{d.ThucHienT8|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,9,d.ThucHienT9)">{{d.ThucHienT9|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,10,d.ThucHienT10)">{{d.ThucHienT10|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,11,d.ThucHienT11)">{{d.ThucHienT11|number}}</span>
+                                            </td>
+                                            <td class="text-center" style="font-size:9pt">
+                                                <span class="hovertext" ng-click="ShowDetail(d,12,d.ThucHienT12)">{{d.ThucHienT12|number}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-info">
+                <div>
+                    <span class="fa fa-info-circle">&nbsp;</span>Ghi chú</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy
+                    HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

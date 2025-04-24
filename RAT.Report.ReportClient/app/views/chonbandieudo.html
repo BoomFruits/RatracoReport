@@ -1,0 +1,20 @@
+<h3>Chọn bàn điều độ
+    <small>Panels can contain almost any kind of element inside</small>
+</h3>
+<div class="panel panel-info">
+    <div class="panel-heading">Chọn một trong các bàn điều độ dưới đây</div>
+    <div class="panel-body">
+        <div ng-show="!isLoaded" class="loading-spinner"></div>
+        <div ng-show="isLoaded">
+            <div class="form-wizard wizard-horizontal">
+                <ol class="row">
+                    <li ng-repeat="item in ListDonVi" ng-class="{'active':item.MaDV==currentBDD.MaDV}"
+                    ng-click="setBanDieuDo(item)" class="col-md-3">
+                        <h4>{{item.TenDV}}</h4>
+                        <small class="text-muted">{{item.MaDV}}</small>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

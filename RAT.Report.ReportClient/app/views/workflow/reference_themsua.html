@@ -1,0 +1,101 @@
+<div style="width: 100%">
+    <div class="modal-header">
+        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="text-align: center;">
+            <span ng-show="!input.ID">{{process.ProcessName}}: Thêm mới cấu hình điều kiện ủy quyền</span>
+            <span
+            ng-show="input.ID">{{process.ProcessName}}: Cập nhật cấu hình điều kiện ủy quyền</span>
+        </h3>
+    </div>
+    <div class="modal-body">
+        <form name="searchForm" novalidate valid-submit="submit()">
+            <div class="row">
+                <div class="form-outline col-md-5">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span class="input-group-addon">Tên trường:
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <select class="form-control" name="Name" ng-model="input.Name" ng-change="changeName(input.Name)"
+                            ng-options="key as key for (key , value) in listColumnName" required="required"
+                            tabindex="1+" enter>
+                                <option value="">--Chọn tên trường--</option>
+                            </select>
+                        </div>
+                        <p class="help-block" ng-show="searchForm.Name.$error.required">Vui lòng chọn tên trường</p>
+                    </div>
+                </div>
+                <div class="form-outline col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span class="input-group-addon">Kiểu dữ liệu:</span>
+                            <select class="form-control" name="DataType" ng-model="input.DataType"
+                            ng-options="ad.key as ad.value for ad in listDataType" required="required"
+                            tabindex="1+" enter>
+                                <option value="">-- Chọn kiểu dữ liệu --</option>
+                            </select>
+                        </div>
+                        <p class="help-block" ng-show="searchForm.DataType.$error.required">Vui lòng chọn tên trường</p>
+                    </div>
+                </div>
+                <div class="form-outline col-md-3">
+                    <div class="form-group">
+                        <div class="input-group" style="width: 150px;height:35px;">
+                            <span class="input-group-addon">Là mã đơn vị:</span>
+                            <input type="text" value="" style="width:0px;display:none;"
+                            />
+                            <span class="input-group-addon" style="background-color: #fff;">
+                                <input type="checkbox" ng-disabled="input.DataType!=9" ng-model="input.IsDonVi">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-outline col-md-5">
+                    <div class="form-group " show-errors>
+                        <div class="input-group">
+                            <span class="input-group-addon">Cách nhập:
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <select class="form-control" name="Control" ng-model="input.Control" ng-options="control.key as control.value for control in listControl"
+                            required="required" tabindex="1+" enter>
+                                <option value="">--Chọn--</option>
+                                <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                            </select>
+                        </div>
+                        <p class="help-block" ng-show="searchForm.Control.$error.required">Vui lòng nhập cách nhập</p>
+                    </div>
+                </div>
+                <div class="form-outline col-md-7">
+                    <div class="form-group " show-errors>
+                        <div class="input-group">
+                            <span class="input-group-addon">Tên hiển thị:
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="Label" ng-model="input.Label" class="form-control"
+                            placeholder="Nhập tên hiển thị" autocomplete="off" required="required"
+                            tabindex="1+" enter/>
+                        </div>
+                        <p class="help-block" ng-show="searchForm.Label.$error.required">Vui lòng nhập tên hiển thị</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-outline col-md-12">
+                    <div class="form-group ">
+                        <div class="input-group">
+                            <span class="input-group-addon">Ghi chú:</span>
+                            <textarea id="GhiChu" name="GhiChu" ng-model="input.GhiChu"
+                            class="form-control" placeholder="Nhập ghi chú (Giải thích các trường hợp so sánh)...."
+                            autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top: 30px;">
+                <button type="submit" class="btn btn-primary" name="report" ng-disabled="isDisabledBtnUpdate">Cập nhật</button>
+                <button type="button" ng-click="close()" class="btn btn-default">Đóng</button>
+            </div>
+        </form>
+    </div>
+</div>

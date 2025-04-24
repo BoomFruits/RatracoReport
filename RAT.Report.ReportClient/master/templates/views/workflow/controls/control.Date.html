@@ -1,0 +1,28 @@
+﻿<div ng-controller="WorkflowControlDateCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select class="form-control" name="ControlDateLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien"  required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlDateLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">
+                    {{reference.LableValue?reference.LableValue:'Giá trị:'}}
+                    <span class="text-danger">(*)</span>
+                </span>
+                <input type="text" class="form-control" name="ControlDateValue{{$surfix}}" uib-datepicker-popup="dd/MM/yyyy" ng-model="dieuKien.DKienDateValue" is-open="openedValueDate" datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"
+                        ng-required="dieuKien.LoaiDieuKien>0" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDateSelect($event)"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <error-show type="required" name="ControlDateValue{{$surfix}}">Vui lòng nhập giá trị</error-show>
+        </div>
+    </div>
+</div>

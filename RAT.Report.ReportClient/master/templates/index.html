@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en" version="1.0.0" data-ng-app="angle">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-store">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta name="description" content="{{app.description}}">
+    <meta name="keywords" content="hang hoa, vtds, hanghoa, hang, dsvn, van tai, van tai hang hoa">
+    <title data-ng-bind="::pageTitle()">RATRACO - Hệ thống quản lý vận tải hàng hóa</title>
+    <!-- Bootstrap styles-->
+    <link rel="stylesheet" href="app/css/bootstrap.css" data-ng-if="!app.layout.isRTL">
+    <link rel="stylesheet" href="app/css/bootstrap-rtl.css" data-ng-if="app.layout.isRTL">
+    <!-- Application styles-->
+    <link rel="stylesheet" href="app/css/app.css" data-ng-if="!app.layout.isRTL">
+    <link rel="stylesheet" href="app/css/app-rtl.css" data-ng-if="app.layout.isRTL">
+    <!-- Themes-->
+    <link rel="stylesheet" ng-href="{{app.layout.theme}}" data-ng-if="app.layout.theme">
+</head>
+
+<body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled, 'show-scrollbar': app.layout.asideScrollbar}">
+    <div data-preloader></div>
+    <div data-ui-view="" data-autoscroll="false" style="overflow:hidden; " class="wrapper"></div>
+    <script src="app/js/base.js"></script>
+    <script src="app/js/app.js"></script>
+</body>
+
+</html>

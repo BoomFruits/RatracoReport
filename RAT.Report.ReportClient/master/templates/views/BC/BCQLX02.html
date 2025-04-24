@@ -1,0 +1,160 @@
+<div class="panel panel-primary hidden-print">
+  <div class="panel-heading">
+    <h3 class="panel-title">BCQLX02: BÁO CÁO SỬA CHỮA TOA XE</h3>
+  </div>
+  <div class="panel-body">
+    <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group" show-errors>
+            <div class="input-group">
+              <span style="width: 130px;" class="input-group-addon">Ngày bắt đầu <span class="text-danger">(*)</span></span>
+              <input type="text" name="Ngay_BatDau" ng-model="input.Ngay_BatDau" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgay_BatDau" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+              <div class="input-group-btn">
+                <button type="button" ng-click="openedNgay_BatDau=true" class="btn btn-default">
+                  <em class="fa fa-calendar"></em>
+                </button>
+              </div>
+            </div>
+            <error-show type="required" name="Ngay_BatDau">Ngày bắt đầu không được trống</error-show>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group" show-errors>
+            <div class="input-group">
+              <span style="width: 130px;" class="input-group-addon">Ngày kết thúc <span class="text-danger">(*)</span></span>
+              <input type="text" name="Ngay_KetThuc" ng-model="input.Ngay_KetThuc" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgay_KetThuc" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+              <div class="input-group-btn">
+                <button type="button" ng-click="openedNgay_KetThuc=true" class="btn btn-default">
+                  <em class="fa fa-calendar"></em>
+                </button>
+              </div>
+            </div>
+            <error-show type="required" name="Ngay_KetThuc">Ngày kết thúc không được trống</error-show>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">Xưởng sửa chữa</span>
+              <input type="text" class="form-control" ng-model="input.XuongSuaChuaItem" id="XuongSuaChuaItem" name="XuongSuaChuaItem"
+                     typeahead-min-length="0" autocomplete="off"
+                     uib-typeahead="n as n.TenXuongSuaXe for n in listXuongSuaChua | filter:{Keyword:$viewValue}| limitTo:8"
+                     placeholder="Gõ từ khóa xưởng sửa chữa..." typeahead-editable="false" enter tabindex="1+" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+            <em class="fa fa-play-circle"></em>&nbsp; Báo cáo
+          </button>
+          <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+            <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+<div class="well well-lg report mb0">
+  <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+  <div class="text-info hidden-print" ng-show="!submited">
+    <div><span class="fa fa-info-circle">&nbsp;</span> Chú ý!</div>
+    <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm [Xuất Excel] để tải về Excel.</div>
+    <div>- Các thông tin có dấu <strong class="text-danger">(*)</strong> &nbsp; là bắt buộc phải nhập/chọn.</div>
+  </div>
+  <div ng-show="submited">
+    <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+    <div ng-show="report.Data.length>0" class="container-fluid">
+      <table class="table report-head">
+        <tr>
+          <td class="report-head-org hidden-xs">
+            <!--  <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>-->
+          </td>
+          <td class="report-head-title">
+            <h4>BÁO CÁO SỬA CHỮA TOA XE</h4>
+            <div>Ngày từ {{report.Input.Ngay_BatDau|date:'dd/MM/yyyy'}} đến {{report.Input.Ngay_KetThuc|date:'dd/MM/yyyy'}}</div>          
+          </td>
+          <td class="report-head-info hidden-xs">
+            <div>Mẫu: BCQLX02</div>
+          </td>
+        </tr>
+      </table>
+      <div class="row">
+        <div class="col-md-12" style="overflow:auto">         
+            <table class="table table-bordered table-hover report-table" style="margin-bottom:0px;padding-bottom:0px;">
+                <thead>
+                  <tr>
+                    <td class="text-center " style="font-size:9pt" rowspan="2">STT </td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Số hiệu xe </td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Đơn vị sửa chữa</td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Ngày vào xưởng</td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Ngày ra xưởng</td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Tu trình sửa chữa</td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Đơn giá theo hợp đồng</td>
+                    <td class="text-center " style="font-size:9pt"colspan="2">Phát sinh ngoài tu trình</td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Thanh toán thực tế</td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Hóa đơn</td>
+                    <td class="text-center " style="font-size:9pt"rowspan="2">Ngày dừng</td>
+                  </tr>       
+                  <tr>
+                    <td class="text-center " style="font-size:9pt">Chi tiết</td>
+                    <td class="text-center " style="font-size:9pt">Số tiền</td>
+                  </tr> 
+                  <tr>
+                    <th class="text-center " style="font-size:9pt">(1)</th>
+                    <th class="text-center " style="font-size:9pt">(2)</th>
+                    <th class="text-center " style="font-size:9pt">(3)</th>
+                    <th class="text-center " style="font-size:9pt">(4)</th>
+                    <th class="text-center " style="font-size:9pt">(5)</th>
+                    <th class="text-center " style="font-size:9pt">(6)</th>
+                    <th class="text-center " style="font-size:9pt">(7)</th>
+                    <th class="text-center " style="font-size:9pt">(8)</th>
+                    <th class="text-center " style="font-size:9pt">(9)</th>
+                    <th class="text-center " style="font-size:9pt">(10)</th>
+                    <th class="text-center " style="font-size:9pt">(11)</th>
+                    <th class="text-center " style="font-size:9pt">(12)</th>
+                  </tr>
+                </thead>
+            
+                  <tbody>
+                    <tr ng-repeat ="item in report.Data">
+                      <td class="text-center" style="font-size:9pt">{{$index+1}}</td>
+                      <td class="text-center" style="font-size:9pt">{{item.SoHieuXe}}<span ng-show="item.PhanLoaiXe">({{item.PhanLoaiXe}})</span></td>
+                      <td class="text-left" style="font-size:9pt">{{item.TenNCC}}</td>
+                      <td class="text-center" style="font-size:9pt">{{item.NgayVaoXuong|date:'dd/MM/yyyy HH:mm'}}</td>
+                      <td class="text-center" style="font-size:9pt">{{item.NgayRaXuong|date:'dd/MM/yyyy HH:mm'}}</td>
+                      <td class="text-left" style="font-size:9pt">{{item.TuTrinhSuaChua}}</td>
+                      <td class="text-right" style="font-size:9pt">{{item.Dongia|number}}</td>
+                      <td class="text-left" style="font-size:9pt">{{item.NgoaiTuTrinh_ChiTiet}}</td>
+                      <td class="text-right" style="font-size:9pt">{{item.NgoaiTuTrinh_Dongia|number}}</td>
+                      <td class="text-right" style="font-size:9pt">{{item.TienSauThue|number}}</td>
+                      <td class="text-center" style="font-size:9pt">{{item.SoHoaDon}}<br />{{item.NgayHoaDon|date:'dd/MM/yyyy'}}</td>
+                      <td class="text-center" style="font-size:9pt">{{item.NgayDung}}</td>
+                    </tr>          
+                  </tbody>
+                  <tfoot>
+                    <tr style="font-weight:bold">
+                      <td class="text-center" style="font-size:9pt" colspan="5">TỔNG CỘNG</td>
+                      <td class="text-center" style="font-size:9pt"></td>
+                      <td class="text-right" style="font-size:9pt">{{report.Tong.Dongia|number}}</td>
+                      <td class="text-center" style="font-size:9pt"></td>
+                      <td class="text-right" style="font-size:9pt">{{report.Tong.NgoaiTuTrinh_Dongia|number}}</td>
+                      <td class="text-right" style="font-size:9pt">{{report.Tong.TienSauThue|number}}</td>
+                      <td class="text-center" style="font-size:9pt"></td>
+                      <td class="text-center" style="font-size:9pt">{{report.Tong.NgayDung|number}}</td>
+                    </tr>
+                  </tfoot>
+                </table>          
+        </div>
+      </div>
+      <div class="text-info">
+        <div><span class="fa fa-info-circle">&nbsp;</span> Ghi chú</div>
+        <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy HH:mm'}}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,283 @@
+<div class="panel panel-primary hidden-print">
+  <div class="panel-heading">
+    <h3 class="panel-title">BCND04: BÁO CÁO SẢN LƯỢNG KHÁCH HÀNG THEO THÁNG</h3>
+  </div>
+  <div class="panel-body">
+    <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group" show-errors>
+            <div class="input-group">
+              <span style="width: 130px;" class="input-group-addon">Ngày bắt đầu <span class="text-danger">(*)</span></span>
+              <input type="text" name="Ngay_BatDau" ng-model="input.Ngay_BatDau" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgay_BatDau" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+              <div class="input-group-btn">
+                <button type="button" ng-click="openedNgay_BatDau=true" class="btn btn-default">
+                  <em class="fa fa-calendar"></em>
+                </button>
+              </div>
+            </div>
+            <error-show type="required" name="Ngay_BatDau">Ngày bắt đầu không được trống</error-show>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group" show-errors>
+            <div class="input-group">
+              <span style="width: 130px;" class="input-group-addon">Ngày kết thúc <span class="text-danger">(*)</span></span>
+              <input type="text" name="Ngay_KetThuc" ng-model="input.Ngay_KetThuc" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgay_KetThuc" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control" required="" />
+              <div class="input-group-btn">
+                <button type="button" ng-click="openedNgay_KetThuc=true" class="btn btn-default">
+                  <em class="fa fa-calendar"></em>
+                </button>
+              </div>
+            </div>
+            <error-show type="required" name="Ngay_KetThuc">Ngày kết thúc không được trống</error-show>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">Khách hàng</span>
+              <input type="text" class="form-control" ng-model="input.KhachHangItem" id="KhachHangItem" name="KhachHangItem"
+                     typeahead-min-length="0" autocomplete="off"
+                     uib-typeahead="n as n.CustomerName for n in listKhachHang | filter:{Keyword:$viewValue}| limitTo:8"
+                     placeholder="Gõ từ khóa khách hàng..." typeahead-editable="false" enter tabindex="1+" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">Ga xếp</span>
+              <input type="text" class="form-control" ng-model="input.GaDongItem" id="GaDongItem" name="GaDongItem"
+                     typeahead-min-length="0" autocomplete="off"
+                     uib-typeahead="n as n.TenZone for n in listGa | filter:{Keyword:$viewValue}| limitTo:8"
+                     placeholder="Gõ từ khóa khu vực..." typeahead-editable="false" enter tabindex="1+"  />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">Ga dỡ</span>
+              <input type="text" class="form-control" ng-model="input.GaTraItem" id="GaTraItem" name="GaTraItem"
+                     typeahead-min-length="0" autocomplete="off"
+                     uib-typeahead="n as n.TenZone for n in listGa | filter:{Keyword:$viewValue}| limitTo:8"
+                     placeholder="Gõ từ khóa khu vực..." typeahead-editable="false" enter tabindex="1+"  />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+            <em class="fa fa-play-circle"></em>&nbsp; Báo cáo
+          </button>
+          <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+            <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+<div class="well well-lg report mb0">
+  <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+  <div class="text-info hidden-print" ng-show="!submited">
+    <div><span class="fa fa-info-circle">&nbsp;</span> Chú ý!</div>
+    <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm [Xuất Excel] để tải về Excel.</div>
+    <div>- Các thông tin có dấu <strong class="text-danger">(*)</strong> &nbsp; là bắt buộc phải nhập/chọn.</div>
+  </div>
+  <div ng-show="submited">
+    <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+    <div ng-show="report.Data.length>0" class="container-fluid">
+      <table class="table report-head">
+        <tr>
+          <td class="report-head-org hidden-xs">
+            <!--  <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>-->
+          </td>
+          <td class="report-head-title">
+            <h4>BÁO CÁO SẢN LƯỢNG KHÁCH HÀNG THEO THÁNG</h4>
+            <div>Ngày từ {{report.Input.TuNgay|date:'dd/MM/yyyy'}} đến {{report.Input.DenNgay|date:'dd/MM/yyyy'}}</div>
+            <div>Thống kê năm {{report.Input.DenNgay|date:'yyyy'}}</div>
+          </td>
+          <td class="report-head-info hidden-xs">
+            <div>Mẫu: BCND04</div>
+          </td>
+        </tr>
+      </table>
+      <div class="row">
+        <div class="col-md-12">
+          <div style="width:99%;height:600px;overflow: hidden;">
+            <div style="width: 100%; overflow-y:scroll;overflow-x:hidden;">
+              <table class="table table-bordered table-hover report-table" style="table-layout:fixed;margin-bottom:0px;padding-bottom:0px">
+                <thead>
+                  <!--<tr>
+                    <th class="text-center w100" style="font-size:9pt" colspan="15">Năm {{report.Input.DenNgay|date:'yyyy'}}</th>
+                  </tr>-->
+                  <tr>
+                    <th class="text-center w3" style="font-size:9pt">STT</th>
+                    <th class="text-center w10" style="font-size:9pt">Khách hàng</th>
+                    <th class="text-center w5" style="font-size:9pt">T1</th>
+                    <th class="text-center w5" style="font-size:9pt">T2</th>
+                    <th class="text-center w5" style="font-size:9pt">T3</th>
+                    <th class="text-center w5" style="font-size:9pt">T4</th>
+                    <th class="text-center w5" style="font-size:9pt">T5</th>
+                    <th class="text-center w5" style="font-size:9pt">T6</th>
+                    <th class="text-center w5" style="font-size:9pt">T7</th>
+                    <th class="text-center w5" style="font-size:9pt">T8</th>
+                    <th class="text-center w5" style="font-size:9pt">T9</th>
+                    <th class="text-center w5" style="font-size:9pt">T10</th>
+                    <th class="text-center w5" style="font-size:9pt">T11</th>
+                    <th class="text-center w5" style="font-size:9pt">T12</th>
+                    <th class="text-center w5" style="font-size:9pt">Lũy kế</th>
+                  </tr>
+                  <tr>
+                    <th class="text-center w3" style="font-size:9pt">(1)</th>
+                    <th class="text-center w10" style="font-size:9pt">(2)</th>
+                    <th class="text-center w5" style="font-size:9pt">(3)</th>
+                    <th class="text-center w5" style="font-size:9pt">(4)</th>
+                    <th class="text-center w5" style="font-size:9pt">(5)</th>
+                    <th class="text-center w5" style="font-size:9pt">(6)</th>
+                    <th class="text-center w5" style="font-size:9pt">(7)</th>
+                    <th class="text-center w5" style="font-size:9pt">(8)</th>
+                    <th class="text-center w5" style="font-size:9pt">(9)</th>
+                    <th class="text-center w5" style="font-size:9pt">(10)</th>
+                    <th class="text-center w5" style="font-size:9pt">(11)</th>
+                    <th class="text-center w5" style="font-size:9pt">(12)</th>
+                    <th class="text-center w5" style="font-size:9pt">(13)</th>
+                    <th class="text-center w5" style="font-size:9pt">(14)</th>
+                    <th class="text-center w5" style="font-size:9pt">(15)</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div style="width:100%;height:100%;overflow:hidden;">
+              <div style="height:90%; margin-top: -30px; overflow-y:scroll;overflow-x:hidden;">
+                <table class="table table-bordered  table-hover table-report" style="table-layout:fixed">
+                  <thead>
+                    <tr>
+                      <th class="text-center w3" style="font-size:9pt"></th>
+                      <th class="text-center w10" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                      <th class="text-center w5" style="font-size:9pt"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="item in report.Data">
+                      <td class="text-center" style="font-size:9pt">{{$index + 1}}</td>
+                      <td class="text-left" style="font-size:9pt">
+                        {{item.KhachHang_Ten}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT1|number}}
+                      </td>  
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT2|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT3|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT4|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT5|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT6|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT7|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT8|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT9|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT10|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT11|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.ThucHienT12|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{item.LuyKe|number}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left" style="font-size:9pt;font-weight:bold" colspan="2">
+                        Tổng cộng:
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT1|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT2|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT3|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT4|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT5|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT6|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT7|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT8|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT9|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT10|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT11|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.ThucHienT12|number}}
+                      </td>
+                      <td class="text-center" style="font-size:9pt">
+                        {{report.Tong.LuyKe|number}}
+                      </td>
+                    </tr>
+                   
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-info">
+        <div><span class="fa fa-info-circle">&nbsp;</span> Ghi chú</div>
+        <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy HH:mm'}}</div>
+      </div>
+    </div>
+  </div>
+</div>

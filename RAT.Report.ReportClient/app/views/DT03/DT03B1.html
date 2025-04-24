@@ -1,0 +1,209 @@
+<div class="panel panel-primary hidden-print">
+    <div class="panel-heading">
+        <h3 class="panel-title">DT03-B1: BÁO CÁO TỔNG HỢP THU - NỘP CỦA TRẠM BÁN VÉ</h3>
+    </div>
+    <div class="panel-body">
+        <form name="reportForm" ng-submit="renderReport()" novalidate="" class="form-validate">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 110px;" class="input-group-addon">Ngày bán từ
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="NgayBan_BatDau" ng-model="input.NgayBan_BatDau" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgayBan_BatDau" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false" class="form-control"
+                            required />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayBan_BatDau=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="NgayBan_BatDau">Ngày bán từ không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 110px;" class="input-group-addon">Ngày bán đến
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input type="text" name="NgayBan_KetThuc" ng-model="input.NgayBan_KetThuc" placeholder="Chọn/Nhập dd/MM/yyyy" is-open="openedNgayBan_KetThuc" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="dateOptions" show-button-bar="false" show-weeks="false"
+                            class="form-control" required />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedNgayBan_KetThuc=true" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="NgayBan_KetThuc">Ngày bán đến không được trống</error-show>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" show-errors>
+                        <div class="input-group">
+                            <span style="width: 110px;" class="input-group-addon">Đơn vị
+                                <span class="text-danger">(*)</span>
+                            </span>
+                            <input name="MaDV" ng-model="input.MaDV" is-open="openedDonVi" tree-don-vi="" tree-data-level="4" tree-expand-level="1" is-owner="true" ng-click="openedDonVi=true" readonly="readonly" placeholder="Chọn đơn vị" required class="form-control" />
+                            <div class="input-group-btn">
+                                <button type="button" ng-click="openedDonVi=true" class="btn btn-default">
+                                    <em class="fa fa-folder-open"></em>
+                                </button>
+                            </div>
+                        </div>
+                        <error-show type="required" name="MaDV">Vui lòng chọn đơn vị bán vé bán vé</error-show>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('report')">
+                        <em class="fa fa-play-circle"></em>&nbsp; Báo cáo
+                    </button>
+                    <button type="submit" ng-disabled="loading" class="btn btn-default" ng-click="setButton('excel')">
+                        <em class="fa fa-file-excel-o"></em>&nbsp; Xuất Excel
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="well well-lg report mb0">
+    <div ng-show="loading" class="loading-spinner hidden-print" text="{{button=='excel'?'Đang xuất excel...':'Đang xuất báo cáo...'}}"></div>
+    <div class="text-info hidden-print" ng-show="!submited">
+        <div>
+            <span class="fa fa-info-circle">&nbsp;</span>Chú ý!</div>
+        <div>- Nhập các thông tin cần thiết sau đó bấm [Báo cáo] để xuất báo cáo, bấm [Xuất Excel] để tải về Excel.</div>
+        <div>- Các thông tin có dấu
+            <strong class="text-danger">(*)</strong>&nbsp; là bắt buộc phải nhập/chọn.</div>
+    </div>
+    <div ng-show="submited">
+        <div ng-show="report.Data.length==0" class="alert alert-success mb0">Không có dữ liệu.</div>
+        <div ng-show="report.Data.length>0" class="container-fluid">
+            <table class="table report-head">
+                <tr>
+                    <td class="report-head-org hidden-xs">
+                        <div ng-include="'app/views/partials/report-head-cong-ty.html'"></div>
+                    </td>
+                    <td class="report-head-title">
+                        <h4>BÁO CÁO TỔNG HỢP THU - NỘP CỦA TRẠM BÁN VÉ</h4>
+                        <div>Ngày bán từ {{report.Input.NgayBan_BatDau|date:'dd/MM/yyyy'}} đến {{report.Input.NgayBan_KetThuc|date:'dd/MM/yyyy'}}</div>
+                        <div>Đơn vị bán vé: {{report.Input.TenDV|empty:'Tất cả'}}</div>
+                    </td>
+                    <td class="report-head-info hidden-xs">
+                        <div>Mẫu: DT03-B1</div>
+                        <div>Đơn vị tính: x1.000 đồng</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel panel-primary report-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover report-table-md">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="text-center ">STT</th>
+                                <th rowspan="2" class="text-center ">Cửa vé</th>
+                                <th rowspan="2" class="text-center ">Số lượng vé</th>
+                                <th colspan="7" class="text-center ">Các khoản thu</th>
+                                <th colspan="2" class="text-center ">Đ/C giảm thu</th>
+                                <th rowspan="2" class="text-center ">Số tiền nộp</th>
+                                <th rowspan="2" class="text-center ">Ghi chú</th>
+
+                            </tr>
+                            <tr>
+                                <th class="text-center ">Tiền mặt bán vé</th>
+                                <th class="text-center ">Tiền mặt thu khác</th>
+                                <th class="text-center ">Chuyển khoản bán vé</th>
+                                <th class="text-center ">Chuyển khoản thu khác</th>
+                                <th class="text-center ">Giấy báo thu bán vé</th>
+                                <th class="text-center ">Giấy báo thu khác</th>
+                                <th class="text-center ">Cộng thu</th>
+                                <th class="text-center ">TM</th>
+                                <th class="text-center ">GBT</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">1</th>
+                                <th class="text-center">2</th>
+                                <th class="text-center">3</th>
+                                <th class="text-center" colspan="2">4</th>
+                                <th class="text-center" colspan="2">5</th>
+                                <th class="text-center" colspan="2">6</th>
+                                <th class="text-center">7=4+5+6</th>
+                                <th class="text-center">8</th>
+                                <th class="text-center">9</th>
+                                <th class="text-center">10=7-8-9</th>
+                                <th class="text-center">11</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in report.Data">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td class="text-left">{{item.MaCV}}</td>
+                                <td class="text-right">{{item.SL_VeBan|number}}</td>
+                                <td class="text-right">{{item.TienThu_TM_Ve|number}}</td>
+                                <td class="text-right">{{item.TienThu_TM_ThuKhac|number}}</td>
+                                <td class="text-right">{{item.TienThu_CK_Ve|number}}</td>
+                                <td class="text-right">{{item.TienThu_CK_ThuKhac|number}}</td>
+                                <td class="text-right">{{item.GBT_Ve|number}}</td>
+                                <td class="text-right">{{item.GBT_ThuKhac|number}}</td>
+                                <td class="text-right">{{item.CongThu|number}}</td>
+                                <td class="text-right">{{item.ChiKhac_TM|number}}</td>
+                                <td class="text-right">{{item.ChiKhac_GBT|number}}</td>
+                                <td class="text-right">{{item.PhaiNop|number}}</td>
+                                <td class="text-right">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" colspan="2">
+                                    <strong>Tổng cộng</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.SL_VeBan|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TienThu_TM_Ve|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TienThu_TM_ThuKhac|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TienThu_CK_Ve|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.TienThu_CK_ThuKhac|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.GBT_Ve|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.GBT_ThuKhac|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.CongThu|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.ChiKhac_TM|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.ChiKhac_GBT|number}}</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>{{report.Tong.PhaiNop|number}}</strong>
+                                </td>
+                                <td class="text-right">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-info">
+                <div>
+                    <span class="fa fa-info-circle">&nbsp;</span>Ghi chú</div>
+                <div>- Báo cáo được sử dụng để đối chiếu và kiểm soát số tiền phải nộp của từng ca bán vé</div>
+                <div>- Số liệu báo cáo đã bao gồm 1.000 đồng bảo hiểm và tiền thuế giá trị gia tăng</div>
+                <div>- Báo cáo được lấy số liệu vào lúc {{report.ReportTime|date:'dd/MM/yyyy HH:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

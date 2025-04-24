@@ -1,0 +1,61 @@
+<div class="panel panel-primary hidden-print">
+    <!-- <div class="panel-heading">
+        <h3 class="panel-title">Mẫu BC03-6B: BIÊN BẢN ĐỐI CHIẾU KHỐI LƯỢNG TOA XE KÉO HỘ</h3>
+    </div> -->
+    <div class="panel-body">
+        <form name="searchForm" novalidate valid-submit="renderReport()">
+           
+        </form>
+
+    </div>
+</div>
+
+<div class="panel panel-primary panel-body">
+    <!-- <div ng-show="isLoading" class="alert alert-info hidden-print">
+        <div class="text-center ">
+            <span class="report-loading">Hệ thống đang tạo dữ liệu báo cáo, vui lòng đợi trong giây lát...</span>
+        </div>
+    </div>
+    <div ng-show="!isLoading && report && report.Items.length == 0" class="alert alert-warning hidden-print">
+        <div class="text-center">Báo cáo không có dữ liệu</div>
+    </div> -->
+    <div class="divPrintReport"style="font-family:'Times New Roman'">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-no-border">
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td class="text-center">
+                            <h2>Quản lý danh sách các tài liệu phê duyệt</h2>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row col-md-12 " style="margin: 0px;">
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="text-align: center;">STT</th>
+                    <th style="text-align: center;">Tên tài liệu</th>
+                    <th style="text-align: center;">Trạng thái</th>
+                    <th style="text-align: center;">Thời gian thực hiện</th>
+                    <th style="text-align: center;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr  ng-repeat="n in data">
+                        <td style="text-align: center;">{{$index +1}}</td>
+                        <td>{{n.ProcessName}}</td>
+                        <td>{{n.TrangThai}}</td>
+                        <td>{{n.ThoiDiemThucHien |date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <!-- <td style="text-align: center;"><i class="text-primary" ng-click="pheduyet(n)" ng-show="n.TrangThaiThucHien == 0 && n.LinkPheDuyet">phê duyệt</i></td> -->
+                        <td style="text-align: center;"><i class="text-primary" ng-click="xemchitiet(n)" ng-show="n.LinkXemChiTiet">xem chi tiết</i></td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>

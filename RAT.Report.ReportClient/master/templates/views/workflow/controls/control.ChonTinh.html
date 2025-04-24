@@ -1,0 +1,29 @@
+﻿<div ng-controller="WorkflowControlChonTinhCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select class="form-control" name="ControlChonTinhLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien" required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                </select>
+            </div>
+            <error-show type="required" name="ControlChonTinhLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        {{reference.LableValue?reference.LableValue:'Chọn tỉnh:'}}
+                        <span class="text-danger">(*)</span>
+                    </span>
+                    <input name="ControlChonTinhValue{{$surfix}}" type="text" class="form-control" ng-model="tinh" ng-required="dieuKien.LoaiDieuKien>0"
+                           typeahead-min-length="0" autocomplete="off" typeahead-editable="false" placeholder="Chọn tỉnh" typeahead-on-select='selectTinh($item)'
+                           uib-typeahead="n as n.TenDiaDiem for n in listTinh | filter:{Keyword:$viewValue}| limitTo:15"
+                           enter tabindex="1+" />
+                </div>
+                <error-show type="required" name="ControlChonTinhValue{{$surfix}}">Vui lòng chọn tỉnh</error-show>
+            </div>
+        </div>
+    </div>
+</div>

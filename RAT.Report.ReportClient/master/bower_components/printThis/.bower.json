@@ -1,0 +1,13 @@
+{
+  "name": "printThis",
+  "homepage": "https://github.com/jasonday/printThis",
+  "_release": "45d39c923b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "45d39c923b1a443891d7c8080f9892f168d4fb34"
+  },
+  "_source": "https://github.com/jasonday/printThis.git",
+  "_target": "master",
+  "_originalSource": "printThis"
+}

@@ -1,0 +1,31 @@
+<div ng-controller="WorkflowControlCanBoCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">{{reference.LableType?reference.LableType:'Loại so sánh:'}}</span>
+                <select
+                class="form-control" name="ControlCanBoLoaiDieuKien{{$surfix}}" ng-model="dieuKien.LoaiDieuKien"
+                required as-number>
+                    <option value="">--Chọn--</option>
+                    <option ng-repeat="ite in listDieuKien" value="{{ite.key}}">{{ite.value}}</option>
+                    </select>
+            </div>
+            <error-show type="required" name="ControlCanBoLoaiDieuKien{{$surfix}}">Vui lòng chọn loại so sánh</error-show>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">{{reference.LableValue?reference.LableValue:'Cán bộ:'}}
+                        <span class="text-danger">(*)</span>
+                    </span>
+                    <input name="ControlCanBoValue{{$surfix}}" type="text" class="form-control"
+                    ng-model="canBo" ng-required="dieuKien.LoaiDieuKien>0" typeahead-min-length="0"
+                    autocomplete="off" typeahead-editable="false" placeholder="Chọn tài khoản"
+                    typeahead-on-select='selectCanBo($item)' uib-typeahead="n as n.FullName for n in listCanBo | filter:{Keyword:$viewValue}| limitTo:15"
+                    enter tabindex="1+" />
+                </div>
+                <error-show type="required" name="ControlCanBoValue{{$surfix}}">Vui lòng chọn cán bộ</error-show>
+            </div>
+        </div>
+    </div>
+</div>
